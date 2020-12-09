@@ -3,7 +3,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 
-function Login({ onSubmit }) {
+function LoginForm({ onSubmit }) {
     return (
         <Formik
             initialValues={{ userName: "", password: "" }}
@@ -48,4 +48,4 @@ function Login({ onSubmit }) {
     )
 }
 
-export default Login;
+export default LoginForm;

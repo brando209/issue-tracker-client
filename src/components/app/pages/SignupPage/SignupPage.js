@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import Signup from '../../../form/Signup';
+import SignupForm from '../../../form/SignupForm';
 import useAuth from '../../../../hooks/useAuth';
 
 function SignupPage() {
@@ -18,7 +18,7 @@ function SignupPage() {
     return (
         redirect === true ?
         <Redirect to="/" /> :
-        <Signup onSubmit={signup} />
+        <SignupForm onSubmit={signup} />
     )
 }
 

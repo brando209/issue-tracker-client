@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 
 import useAuth from '../../../../hooks/useAuth';
-import Login from '../../../form/Login';
+import LoginForm from '../../../form/LoginForm';
 
 function LoginPage() {
     const auth = useAuth();
@@ -16,7 +16,7 @@ function LoginPage() {
     return (
         auth.user ? 
             <Redirect to="/dashboard"/> :
-            <Login onSubmit={login}/>
+            <LoginForm onSubmit={login}/>
     )
 }
 

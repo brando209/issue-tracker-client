@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setLocalAuthToken, getLocalAuthToken, removeLocalAuthToken } from '../utility/storage/authStorage';
+import { setLocalAuthToken, getLocalAuthToken, removeLocalAuthToken } from '../utility/local/authStorage';
 
 const auth = {
     isAuthenticated: false, 

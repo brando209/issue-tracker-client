@@ -4,14 +4,14 @@ import { Nav } from 'react-bootstrap';
 import LinkButton from '../../display/Button/LinkButton';
 import NavBar from '../../display/NavBar/NavBar';
 
-function ProjectsNavBar() {
+function IssueNavBar() {
     return (
-        <NavBar title="Projects" bg="light" render={() => (
+        <NavBar title="Issues" bg="light" render={() => (
             <Nav>
-                <LinkButton to="/projects/new">Add New Project</LinkButton>
+                <LinkButton to="issues/new" variant="outline-dark">Add New Issue</LinkButton>
             </Nav>
         )}/>
     )
 }
 
-export default ProjectsNavBar;
+export default IssueNavBar;

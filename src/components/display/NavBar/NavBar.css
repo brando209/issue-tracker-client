@@ -1,4 +1,33 @@
 .NavBar {
     display: flex;
     flex-direction: row;
+    min-height: 5vh;
+}
+
+.NavBar .logo {
+    height: 8vh;
+    pointer-events: none;   
+}
+
+.NavBar.bg-dark #brand {
+    color: rgb(237, 237, 237);
+}
+
+.NavBar.bg-light #brand {
+    color: rgb(38, 38, 38);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .NavBar .logo {
+        animation: Logo-spin infinite 20s linear;
+    }
+}
+
+@keyframes Logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
 }

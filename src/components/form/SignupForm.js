@@ -3,7 +3,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
-function Signup(props) {
+function SignupForm(props) {
     return (
         <Formik
             initialValues={{ firstName: "", lastName: "", email: "", userName: "", password: "", confirmPassword: "" }}
@@ -75,4 +75,4 @@ function Signup(props) {
     )
 }
 
-export default Signup;
+export default SignupForm;
