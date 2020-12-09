@@ -31,6 +31,8 @@ async function deleteProject(projectId, authToken) {
     }
 }
 
-export default {
+const projectsApi = {
     createProject, updateProject, deleteProject
 }
+
+export default projectsApi;

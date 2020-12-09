@@ -1,5 +1,5 @@
 import { Navbar } from 'react-bootstrap'
-import { Form, FormControl, Button } from 'react-bootstrap';
+// import { Form, FormControl, Button } from 'react-bootstrap';
 import './NavBar.css';
 
 function NavBar({ title, logo, render, ...props }) {

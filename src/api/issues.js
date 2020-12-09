@@ -31,6 +31,8 @@ async function deleteIssue(projectId, issueId, authToken) {
     }
 }
 
-export default {
+const issuesApi = {
     createIssue, updateIssue, deleteIssue
 }
+
+export default issuesApi;

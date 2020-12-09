@@ -3,15 +3,16 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import ProvideAuth from './contexts/AuthContext'
 import TopNavBar from './components/app/Navigation/TopNavBar';
-import LoginPage from './components/app/pages/LoginPage/LoginPage';
-import SignupPage from './components/app/pages/SignupPage/SignupPage';
-import Dashboard from './components/app/pages/Dashboard/Dashboard';
-import ProjectDashboard from './components/app/pages/ProjectDashboard/ProjectDashboard';
-import NewProjectPage from './components/app/pages/NewProjectPage/NewProjectPage';
-import NewIssuePage from './components/app/pages/NewIssuePage/NewIssuePage';
-import IssueDashboard from './components/app/pages/IssueDashboard/IssueDashboard';
-import ProjectDetails from './components/app/pages/ProjectDetails/ProjectDetails';
-import IssueDetails from './components/app/pages/IssueDetails/IssueDetails';
+
+import LoginPage from './pages/LoginPage/LoginPage';
+import SignupPage from './pages/SignupPage/SignupPage';
+import NewProjectPage from './pages/NewProjectPage/NewProjectPage';
+import NewIssuePage from './pages/NewIssuePage/NewIssuePage';
+import Dashboard from './pages/Dashboard/Dashboard';
+import ProjectDashboard from './pages/ProjectDashboard/ProjectDashboard';
+import IssueDashboard from './pages/IssueDashboard/IssueDashboard';
+import ProjectDetails from './pages/ProjectDetails/ProjectDetails';
+import IssueDetails from './pages/IssueDetails/IssueDetails';
 
 function IssueTracker() {
     return (

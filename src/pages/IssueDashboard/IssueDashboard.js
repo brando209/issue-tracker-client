@@ -1,13 +1,13 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 
-import useAuth from '../../../../hooks/useAuth';
-import useResource from '../../../../hooks/useResource';
+import useAuth from '../../hooks/useAuth';
+import useResource from '../../hooks/useResource';
 
-import IssueNavBar from '../../Navigation/IssueNavBar';
-import IssueList from '../pageComponents/IssueList/IssueList';
+import IssueNavBar from '../../components/app/Navigation/IssueNavBar';
+import IssueList from '../../components/app/IssueList/IssueList';
 
-import issuesApi  from '../../../../api/issues';
+import issuesApi  from '../../api/issues';
 
 function IssueDashboard(props) {
     const auth = useAuth();

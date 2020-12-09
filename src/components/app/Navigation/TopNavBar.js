@@ -1,9 +1,8 @@
 import React from 'react';
-import { Button, Nav } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 
 import LinkButton from '../../display/Button/LinkButton';
-import NavBar from '../../display/NavBar/NavBar'
-;
+import NavBar from '../../display/NavBar/NavBar';
 import useAuth from '../../../hooks/useAuth';
 
 import logo from '../../../logo.svg';
@@ -24,7 +23,7 @@ function TopNavBar(props) {
                 { !auth.user ? <LinkButton to="signup">Signup</LinkButton> : null }
                 { auth.user ? <LinkButton to="/dashboard">Dashboard</LinkButton> : null }
                 { auth.user ? <LinkButton to="/account">Account</LinkButton> : null }
-                { auth.user ? <Button onClick={logout}>Logout</Button> : null }
+                { auth.user ? <LinkButton onClick={logout}>Logout</LinkButton> : null }
             </Nav>
         )} />
     )

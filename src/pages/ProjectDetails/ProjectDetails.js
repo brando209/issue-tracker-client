@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import useResource from '../../../../hooks/useResource';
-import useAuth from '../../../../hooks/useAuth';
+import useResource from '../../hooks/useResource';
+import useAuth from '../../hooks/useAuth';
 
 function ProjectDetails(props) {
     const auth = useAuth();

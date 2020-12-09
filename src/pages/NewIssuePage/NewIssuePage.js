@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import NewIssueForm from '../../../form/NewIssueForm';
-import useAuth from '../../../../hooks/useAuth';
-import issuesApi from '../../../../api/issues';
+import NewIssueForm from '../../components/form/NewIssueForm';
+import useAuth from '../../hooks/useAuth';
+import issuesApi from '../../api/issues';
 
 function NewIssuePage(props) {
     const auth = useAuth();

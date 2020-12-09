@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import SignupForm from '../../../form/SignupForm';
-import useAuth from '../../../../hooks/useAuth';
+import SignupForm from '../../components/form/SignupForm';
+import useAuth from '../../hooks/useAuth';
 
 function SignupPage() {
     const auth = useAuth();

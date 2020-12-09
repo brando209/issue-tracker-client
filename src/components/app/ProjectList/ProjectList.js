@@ -1,6 +1,6 @@
 import React from 'react';
 
-import List from '../../../../display/List/List';
+import List from '../../display/List/List';
 import ProjectOverview from '../ProjectOverview/ProjectOverview';
 
 function ProjectList({ projectList, onDelete }) {

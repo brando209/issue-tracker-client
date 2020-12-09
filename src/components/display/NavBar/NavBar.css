@@ -1,11 +1,11 @@
 .NavBar {
     display: flex;
     flex-direction: row;
-    min-height: 5vh;
+    min-height: 8vmin;
 }
 
-.NavBar .logo {
-    height: 8vh;
+.NavBar #brand .logo {
+    max-height: 7vmin;
     pointer-events: none;   
 }
 

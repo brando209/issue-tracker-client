@@ -1,0 +1,19 @@
+.IssueDetails {
+    background-color: rgb(197, 197, 197);
+}
+
+.IssueDetails > * > :nth-child(1) {
+    text-align: right;
+}
+/* 
+[.IssueDetails > * > :nth-child(1)] before [.IssueDetails > .title *] 
+or title not centered due to specificity reasons
+*/
+.IssueDetails > .title * {
+    text-align: center;
+}
+
+.IssueDetails > * > :nth-child(2) {
+    justify-content: left;
+    text-align: left;
+}

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-
-import NewProjectForm from '../../../form/NewProjectForm';
-import projectsApi from '../../../../api/projects';
-import useAuth from '../../../../hooks/useAuth';
 import { Redirect } from 'react-router-dom';
+
+import useAuth from '../../hooks/useAuth';
+import projectsApi from '../../api/projects'; 
+import NewProjectForm from '../../components/form/NewProjectForm';
 
 function NewProjectPage() {
     const auth = useAuth();

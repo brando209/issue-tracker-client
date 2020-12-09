@@ -1,13 +1,13 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 
-import useAuth from '../../../../hooks/useAuth';
-import useResource from '../../../../hooks/useResource';
+import useAuth from '../../hooks/useAuth';
+import useResource from '../../hooks/useResource';
 
-import ProjectsNavBar from '../../Navigation/ProjectsNavBar';
-import ProjectList from '../pageComponents/ProjectList/ProjectList';
+import ProjectsNavBar from '../../components/app/Navigation/ProjectsNavBar';
+import ProjectList from '../../components/app/ProjectList/ProjectList';
 
-import projectsApi  from '../../../../api/projects';
+import projectsApi  from '../../api/projects';
 
 function ProjectDashboard() {
     const auth = useAuth();

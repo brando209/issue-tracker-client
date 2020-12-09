@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Dropdown, DropdownButton } from 'react-bootstrap';
-import LinkButton from '../../../../display/Button/LinkButton';
+import LinkButton from '../../display/Button/LinkButton';
 
 
 function ProjectOverview({ project, onDelete }) {
