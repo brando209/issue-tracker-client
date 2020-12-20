@@ -2,17 +2,7 @@ import React from 'react';
 import { Card, Dropdown, DropdownButton } from 'react-bootstrap';
 import LinkButton from '../../display/Button/LinkButton';
 
-
-function ProjectOverview({ project, onDelete }) {
-    
-    const deleteProject = () => {
-        onDelete(project.id);
-    }
-
-    const updateProject = () => {
-
-    }
-
+function ProjectOverview({ project, onDelete, onEdit, onAddCollaborator }) {
     return (
         <Card style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
             <Card.Body style={{ flex: 1 }}>
@@ -22,8 +12,9 @@ function ProjectOverview({ project, onDelete }) {
                 </Card.Text>
                 <LinkButton variant="primary" to={`/projects/${project.id}`}>View Project</LinkButton>
                 <DropdownButton variant="secondary" title="Settings">
-                    <Dropdown.Item onClick={updateProject}>Edit Project</Dropdown.Item>
-                    <Dropdown.Item onClick={deleteProject}>Delete Project</Dropdown.Item>
+                    <Dropdown.Item onClick={() => onEdit(project.id)}>Edit Project</Dropdown.Item>
+                    <Dropdown.Item onClick={() => onDelete({ projectId: project.id })}>Delete Project</Dropdown.Item>
+                    <Dropdown.Item onClick={() => onAddCollaborator({ projectId: project.id })}>Add Collaborator</Dropdown.Item>
                 </DropdownButton>
             </Card.Body>
 

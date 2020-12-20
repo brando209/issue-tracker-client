@@ -31,8 +31,28 @@ async function deleteProject(projectId, authToken) {
     }
 }
 
+async function addProjectCollaborator(projectId, collaboratorId, authToken) {
+    try {
+        const headers = authHeader(authToken);
+        const result = await axios.post(`http://localhost:3001/api/projects/${projectId}/collaborators`, { collaboratorId }, { headers })
+        return result;
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+async function removeProjectCollaborator(projectId, collaboratorId, authToken) {
+    try {
+        const headers = authHeader(authToken);
+        const result = await axios.delete(`http://localhost:3001/api/projects/${projectId}/collaborators`, { collaboratorId }, { headers })
+        return result;
+    } catch(err) {
+        console.log(err);
+    }
+}
+
 const projectsApi = {
-    createProject, updateProject, deleteProject
+    createProject, updateProject, deleteProject, addProjectCollaborator, removeProjectCollaborator
 }
 
 export default projectsApi;
