@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import useResource from '../../hooks/useResource';
 import useAuth from '../../hooks/useAuth';
+
 import './IssueDetails.css';
 
 function IssueDetails(props) {
