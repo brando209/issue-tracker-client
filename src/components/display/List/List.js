@@ -7,7 +7,7 @@ function List({ listItems, render }) {
         <div className="list-container">
 
             {
-                listItems ? listItems.map((item, key) => <div className="list-item" key={key}>{render(item)}</div>) : null
+                listItems && listItems.map((item, key) => <div className="list-item" key={key}>{render(item)}</div>)
             }
 
         </div>

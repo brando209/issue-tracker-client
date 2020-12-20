@@ -15,11 +15,11 @@ import ProjectDetails from './pages/ProjectDetails/ProjectDetails';
 import IssueDetails from './pages/IssueDetails/IssueDetails';
 
 function IssueTracker() {
+
     return (
         <BrowserRouter>
             <ProvideAuth>
                 <TopNavBar />
-
                 <Switch>
                     <Route path="/login" component={LoginPage} />
                     <Route path="/signup" component={SignupPage} />
