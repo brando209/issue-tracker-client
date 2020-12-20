@@ -1,7 +1,8 @@
 import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
-import ProvideAuth from './contexts/AuthContext'
+import ProvideAuth from './contexts/AuthContext';
+import PrivateRoute from './utility/route/PrivateRoute';
 import TopNavBar from './components/app/Navigation/TopNavBar';
 
 import LoginPage from './pages/LoginPage/LoginPage';
@@ -23,14 +24,16 @@ function IssueTracker() {
                 <Switch>
                     <Route path="/login" component={LoginPage} />
                     <Route path="/signup" component={SignupPage} />
-                    <Route path="/dashboard" component={Dashboard} />
+                    <PrivateRoute path="/dashboard" component={Dashboard} />
                     <Route path="/projects/:projectId/issues/new" component={NewIssuePage} />
                     <Route path="/projects/:projectId/issues/:issueId" component={IssueDetails} />
                     <Route path="/projects/:projectId/issues" component={IssueDashboard} />
                     <Route path="/projects/new" component={NewProjectPage} />
                     <Route path="/projects/:projectId/" component={ProjectDetails} />
                     <Route path="/projects" component={ProjectDashboard} />
-                    <Route path="/" component={() => <div>Home</div>} />
+                    <Route path="/">
+                        <div>Home</div>
+                    </Route>
                 </Switch>
 
             </ProvideAuth>
