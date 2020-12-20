@@ -49,7 +49,7 @@ function ProjectDashboard() {
                     <SelectForm 
                         formId="collaborator-select-form"
                         fieldName="collaboratorId"
-                        initialValues={{ "collaboratorId": null }}
+                        initialValues={{ "collaboratorId": "" }}
                         selectItems={collaborators.data} 
                         itemKey="userName"
                     />

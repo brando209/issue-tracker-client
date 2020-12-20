@@ -24,9 +24,9 @@ function ProjectDetails(props) {
                 </Row>
                 
                 {
-                    collaborators && collaborators.data.map(collab => {
+                    collaborators && collaborators.data.map((collab, key) => {
                         return (
-                            <Row>
+                            <Row key={key}>
                                 <Col style={{ textAlign: "right" }}>{`${collab.firstName} ${collab.lastName}`}</Col>
                                 <Col style={{ textAlign: "left" }}>{collab.userName}</Col>
                             </Row>
