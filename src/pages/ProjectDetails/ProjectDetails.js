@@ -2,21 +2,34 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import useResource from '../../hooks/useResource';
 import useAuth from '../../hooks/useAuth';
-import IssueNavBar from '../../components/app/Navigation/IssueNavBar';
+import projectsApi from '../../api/projects';
+import withEdit from '../../components/hocs/withEdit/withEdit';
 
 function ProjectDetails(props) {
     const auth = useAuth();
     const project = useResource(`http://localhost:3001/api/projects/${props.match.params.projectId}`, auth.user ? auth.user.token : null);
     const collaborators = useResource(`http://localhost:3001/api/projects/${props.match.params.projectId}/collaborators`, auth.user ? auth.user.token : null);
 
+    const EditBox = withEdit(Col, "text");
+    const EditArea = withEdit(Col, "textarea");
+
+    const handleEdit = async (value) => {
+        const result = await projectsApi.updateProject(props.match.params.projectId, auth.user.token, value);
+        console.log(result);
+    }
+
     return (
         <Container fluid>
-                <Row>
-                    <Col as="h3">{project.data.name}</Col>
+                <Row className="justify-content-center">
+                    <EditBox as="h3" value={project.data.name} name="name" onEdit={handleEdit}>
+                        {project.data.name}
+                    </EditBox>
                 </Row>
-
-                <Row>
-                    <Col as="p">{project.data.description}</Col>
+                
+                <Row className="justify-content-center">
+                    <EditArea as="p" value={project.data.description} name="description" onEdit={handleEdit}>
+                        {project.data.description}
+                    </EditArea>
                 </Row>
 
                 <Row>
