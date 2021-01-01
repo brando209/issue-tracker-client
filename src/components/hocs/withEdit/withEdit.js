@@ -68,7 +68,7 @@ const withEdit = (WrappedComponent, type) => (
                         onKeyPress={handleKeyPress}
                     >
                         {
-                            props.selectOptions && props.selectOptions.map((opt, idx) => (
+                            props.options && props.options.map((opt, idx) => (
                                 <option key={idx} value={opt}>
                                     {opt}
                                 </option>

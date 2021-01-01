@@ -55,7 +55,7 @@ function IssueDetails(props) {
                         value={issue.data.category} 
                         name="category" 
                         onEdit={handleEdit} 
-                        selectOptions={["bug", "feature", "task"]}
+                        options={["bug", "feature", "task"]}
                     >
                         {issue.data.category}
                     </EditSelect>
@@ -68,7 +68,7 @@ function IssueDetails(props) {
                         value={issue.data.priority} 
                         name="priority" 
                         onEdit={handleEdit} 
-                        selectOptions={["critical", "high", "regular", "low", "trivial"]}
+                        options={["critical", "high", "regular", "low", "trivial"]}
                     >
                         {issue.data.priority}
                     </EditSelect>

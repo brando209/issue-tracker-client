@@ -21,31 +21,40 @@ function IssueDashboard(props) {
         `http://localhost:3001/api/projects/${props.match.params.projectId}/collaborators`,
         auth.user ? auth.user.token : null
     )
-    const { show: showDeleteIssueDialogBox, RenderDialogBox: RenderDeleteIssueDialogBox } = useDialogBox();
-    const { show: showAssignIssueDialogBox, RenderDialogBox: RenderAssignIssueDialogBox } = useDialogBox();
+    const { show: showDeleteIssueDialogBox, RenderDialogBox: DeleteIssueDialogBox } = useDialogBox();
+    const { show: showAssignIssueDialogBox, RenderDialogBox: AssignIssueDialogBox } = useDialogBox();
 
-    const handleDeleteIssue = async ({ projectId, issueId }) => {
-        await issuesApi.deleteIssue(projectId, issueId, auth.user.token);
+    const handleDeleteIssue = async ({ data }) => {
+        await issuesApi.deleteIssue(data.projectId, data.issueId, auth.user.token);
     }
 
-    const handleAssignIssue = async () => {
-        
+    const handleAssignIssue = async ({ data, values }) => {
+        await issuesApi.assignIssue(data.projectId, data.issueId, values.collaboratorId, auth.user.token);
     }
 
     return (
         <Container fluid>
-            <RenderDeleteIssueDialogBox
+            <DeleteIssueDialogBox
                 heading="Delete Issue"
                 submitButtonText="Delete"
                 onSubmit={handleDeleteIssue}
-                render={({ issueId }) => 'Are you sure you would like to delete issue ' + issueId}
+                render={({ data }) => (
+                    'Are you sure you would like to delete issue ' + data.issueId
+                )}
             />
-            <RenderAssignIssueDialogBox
+            <AssignIssueDialogBox
                 heading="Assign Issue"
                 submitButtonText="Assign"
+                formId="project-collaborators"  
                 onSubmit={handleAssignIssue}
                 render={() => (
-                    <SelectForm initialValues={{collaborator: "who"}} formName="project-collaborators" selectItems={collaborators.data} itemKey="userName"/>
+                    <SelectForm 
+                        formId="project-collaborators"  
+                        fieldName="collaboratorId"
+                        initialValues={{ "collaboratorId": ""}} 
+                        selectItems={collaborators.data} 
+                        itemKey="userName"
+                    />
                 )}
             />
             <IssueNavBar />

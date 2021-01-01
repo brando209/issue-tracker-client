@@ -7,8 +7,14 @@ import withEdit from '../../components/hocs/withEdit/withEdit';
 
 function ProjectDetails(props) {
     const auth = useAuth();
-    const project = useResource(`http://localhost:3001/api/projects/${props.match.params.projectId}`, auth.user ? auth.user.token : null);
-    const collaborators = useResource(`http://localhost:3001/api/projects/${props.match.params.projectId}/collaborators`, auth.user ? auth.user.token : null);
+    const project = useResource(
+        `http://localhost:3001/api/projects/${props.match.params.projectId}`,
+        auth.user ? auth.user.token : null
+    );
+    const collaborators = useResource(
+        `http://localhost:3001/api/projects/${props.match.params.projectId}/collaborators`,
+        auth.user ? auth.user.token : null
+    );
 
     const EditBox = withEdit(Col, "text");
     const EditArea = withEdit(Col, "textarea");
