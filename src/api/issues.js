@@ -31,8 +31,22 @@ async function deleteIssue(projectId, issueId, authToken) {
     }
 }
 
+async function assignIssue(projectId, issueId, assigneeId, authToken) {
+    try {
+        const headers = authHeader(authToken);
+        const issue = await axios.patch(
+            `http://localhost:3001/api/projects/${projectId}/issues/${issueId}/assign`,
+            { assigneeId },
+            { headers }
+        )
+        console.log(issue);
+    } catch(err) {
+        console.log(err);
+    }
+}
+
 const issuesApi = {
-    createIssue, updateIssue, deleteIssue
+    createIssue, updateIssue, deleteIssue, assignIssue
 }
 
 export default issuesApi;

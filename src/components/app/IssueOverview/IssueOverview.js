@@ -3,7 +3,8 @@ import { Button, Card, Dropdown, DropdownButton } from 'react-bootstrap';
 import LinkButton from '../../display/Button/LinkButton';
 
 function IssueOverview({ projectId, issue, onDelete, onAssign }) {
-    const deleteIssue = () => onDelete({projectId: projectId, issueId: issue.id });
+    const handleDeleteIssue = () => onDelete({ projectId: projectId, issueId: issue.id });
+    const handleAssignIssue = () => onAssign({ projectId: projectId, issueId: issue.id });
 
     return (
         <Card style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'row' }}>
@@ -16,10 +17,10 @@ function IssueOverview({ projectId, issue, onDelete, onAssign }) {
 
             <Card.Body style={{ flex: 1 }}>
                 <LinkButton variant="primary" to={`/projects/${projectId}/issues/${issue.id}`}>View</LinkButton>
-                <Button variant="primary" onClick={onAssign}>Assign</Button>
+                <Button variant="primary" onClick={handleAssignIssue}>Assign</Button>
                 <DropdownButton variant="secondary" title="Settings">
                     <Dropdown.Item >Edit Issue</Dropdown.Item>
-                    <Dropdown.Item onClick={deleteIssue}>Delete Issue</Dropdown.Item>
+                    <Dropdown.Item onClick={handleDeleteIssue}>Delete Issue</Dropdown.Item>
                 </DropdownButton>
             </Card.Body>
 
