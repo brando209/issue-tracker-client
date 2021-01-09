@@ -60,7 +60,8 @@ function IssueDashboard(props) {
             <IssueNavBar />
             <IssueList 
                 projectId={props.match.params.projectId} 
-                issueList={issues.data} 
+                issueList={issues.data}
+                groupBy="category"
                 onDelete={showDeleteIssueDialogBox}
                 onAssign={showAssignIssueDialogBox}
             />
