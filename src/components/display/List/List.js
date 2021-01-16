@@ -1,13 +1,27 @@
 import React from 'react';
-import { groupBy, orderBy, values, includes, take } from 'lodash';
+import { groupBy, mapValues, pickBy, includes } from 'lodash';
 
 import ListItem from './ListItem'
 import ListItemGroup from './ListItemGroup';
 import './List.css';
 
 function List({ listItems, groupKey = null, groupValues = null, orderBy = 'asc', filter = null, render }) {
-
-    const groupedItems = groupBy(listItems, (value) => value[groupKey]);
+    // Maps property keys of 'filter' prop to an array containing the values that are not being filtered out
+    const allowedValues = mapValues(filter, (obj) => {
+        const selectedFilters = pickBy(obj, (value) => value === true);
+        return Object.keys(selectedFilters);
+    });
+    const filteredItems = listItems && listItems.filter(item => {
+        const allowedKeys = Object.keys(allowedValues);
+        let isAllowed = true;
+        for(let key of allowedKeys) {
+            if(includes(allowedValues[key], item[key]) === false) {
+                isAllowed = false;
+            }
+        }
+        return isAllowed;
+    });
+    const groupedItems = groupBy(filteredItems, (value) => value[groupKey]);
 
     const listComponents = () => {
         if(groupKey && groupValues) {
@@ -19,7 +33,7 @@ function List({ listItems, groupKey = null, groupValues = null, orderBy = 'asc',
             return orderBy === 'desc' ? groupComponents.reverse() : groupComponents;
         }
 
-        return listItems && listItems.map((item, idx) => <ListItem item={item} key={idx} keyValue={idx} render={render} />);
+        return filteredItems && filteredItems.map((item, idx) => <ListItem item={item} key={idx} keyValue={idx} render={render} />);
     }
 
     return (
