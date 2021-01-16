@@ -4,10 +4,11 @@ import { Nav } from 'react-bootstrap';
 import LinkButton from '../../display/Button/LinkButton';
 import NavBar from '../../display/NavBar/NavBar';
 
-function IssueNavBar() {
+function IssueNavBar({ render }) {
     return (
         <NavBar title="Issues" bg="light" render={() => (
             <Nav>
+                {render()}
                 <LinkButton to="issues/new" variant="outline-dark">Add New Issue</LinkButton>
             </Nav>
         )}/>
