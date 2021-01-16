@@ -1,0 +1,9 @@
+.filterDropdown > .dropdown-menu {
+    width: 400px;
+}
+
+.filterDropdown > .dropdown-menu .filters {
+    display: flex;
+    flex-direction: row;
+}
+
