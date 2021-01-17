@@ -8,7 +8,7 @@ const groups = {
     status: ['closed', 'resolved', 'inprogresss', 'open', 'unassigned'] 
 }
 
-function IssueList({ projectId, issueList, groupBy, orderBy, filter, ...props }) {
+function IssueList({ projectId, issueList, groupBy, orderBy, filter, searchText, searchKeys, ...props }) {
     return issueList ?
         <List
             listItems={issueList} 
@@ -16,6 +16,8 @@ function IssueList({ projectId, issueList, groupBy, orderBy, filter, ...props })
             groupValues={groups[groupBy]}
             orderBy={orderBy}
             filter={filter}
+            searchText={searchText}
+            searchKeys={searchKeys}
             render={item => <IssueOverview projectId={projectId} issue={item} {...props} />}
         /> :
         "No Issues"

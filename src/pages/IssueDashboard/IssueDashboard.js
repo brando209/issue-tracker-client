@@ -12,6 +12,7 @@ import issuesApi  from '../../api/issues';
 import useDialogBox from '../../hooks/useDialogBox';
 import useListParams from '../../hooks/useListParams';
 import SelectForm from '../../components/form/SelectForm';
+import InlineSearch from '../../components/form/InlineSearch';
 
 const initialFilterValue = {
     category: {
@@ -48,7 +49,7 @@ function IssueDashboard(props) {
     )
     const { show: showDeleteIssueDialogBox, RenderDialogBox: DeleteIssueDialogBox } = useDialogBox();
     const { show: showAssignIssueDialogBox, RenderDialogBox: AssignIssueDialogBox } = useDialogBox();
-    const [listParams, changeListParams] = useListParams({ order: "asc", group: "none", filter: initialFilterValue });
+    const [listParams, changeListParams] = useListParams({ order: "desc", group: "category", filter: initialFilterValue, search: "" });
 
     const handleDeleteIssue = async ({ data }) => {
         await issuesApi.deleteIssue(data.projectId, data.issueId, auth.user.token);
@@ -58,6 +59,7 @@ function IssueDashboard(props) {
         await issuesApi.assignIssue(data.projectId, data.issueId, values.collaboratorId, auth.user.token);
     }
 
+    console.log(listParams);
     return (
         <Container fluid>
             <DeleteIssueDialogBox
@@ -84,10 +86,13 @@ function IssueDashboard(props) {
                 )}
             />
             <IssueNavBar render={() => (
-                <IssueFilterControl 
-                    initialFilterValue={initialFilterValue}
-                    onSelect={changeListParams}
-                />
+                <>
+                    <InlineSearch onSubmit={(searchText) => { changeListParams("search", searchText) }}/>
+                    <IssueFilterControl 
+                        initialFilterValue={initialFilterValue}
+                        onSelect={changeListParams}
+                    />
+                </>
             )}/>
             <IssueList 
                 projectId={props.match.params.projectId} 
@@ -96,6 +101,8 @@ function IssueDashboard(props) {
                 groupBy={listParams.group}
                 orderBy={listParams.order}
                 filter={listParams.filter}
+                searchText={listParams.search}
+                searchKeys={["title", "description"]}
 
                 onDelete={showDeleteIssueDialogBox}
                 onAssign={showAssignIssueDialogBox}
