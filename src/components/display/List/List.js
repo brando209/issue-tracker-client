@@ -24,12 +24,10 @@ function List({ listItems, groupKey = null, groupValues = null, orderBy = 'asc',
         // Also, filter out items not matching the current search (item['searchKeys'] !== 'searchText')
         if(isAllowed && searchText !== "") {
             for(let key of searchKeys) {
-                console.log("Checking", item[key], "for", searchText);
                 if(includes(item[key].toLowerCase(), searchText.toLowerCase()) === true) {
-                    console.log("PASS")
                     isAllowed = true;
                     break;
-                }
+                } else isAllowed = false;
             }
         }
         return isAllowed;
