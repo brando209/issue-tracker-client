@@ -34,7 +34,7 @@ const auth = {
                 { headers: { 'Authorization': `Bearer ${token}` } }
             );
             auth.isAuthenticated = true;
-            cb({ ...response.data.user, token });
+            cb({ ...response.data, token });
         } catch(err) {
             auth.isAuthenticated = false;
             cb(null);
