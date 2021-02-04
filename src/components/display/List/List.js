@@ -12,7 +12,7 @@ function List({ listItems, groupKey = null, groupValues = null, orderBy = 'asc',
         return Object.keys(selectedFilters);
     });
     
-    const filteredItems = listItems && listItems.filter(item => {
+    const filteredItems = listItems && listItems.length > 0 && listItems.filter(item => {
         const allowedKeys = Object.keys(allowedValues);
         let isAllowed = true;
         // Filter out items based on the current filter
