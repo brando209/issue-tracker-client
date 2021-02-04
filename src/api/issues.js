@@ -45,8 +45,22 @@ async function assignIssue(projectId, issueId, assigneeId, authToken) {
     }
 }
 
+async function advanceIssue(projectId, issueId, status, authToken) {
+    try {
+        const headers = authHeader(authToken);
+        const issue = await axios.patch(
+            `http://localhost:3001/api/projects/${projectId}/issues/${issueId}/advance`,
+            { status },
+            { headers }
+        )
+        console.log(issue);
+    } catch(err) {
+        console.log(err);
+    }
+}
+
 const issuesApi = {
-    createIssue, updateIssue, deleteIssue, assignIssue
+    createIssue, updateIssue, deleteIssue, assignIssue, advanceIssue
 }
 
 export default issuesApi;

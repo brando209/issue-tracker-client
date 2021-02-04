@@ -2,9 +2,11 @@ import React from 'react';
 import { Button, Card, Dropdown, DropdownButton } from 'react-bootstrap';
 import LinkButton from '../../display/Button/LinkButton';
 
-function IssueOverview({ projectId, issue, onDelete, onAssign }) {
+function IssueOverview({ projectId, issue, onDelete, onAssign, onStart, onClose }) {
     const handleDeleteIssue = () => onDelete({ projectId: projectId, issueId: issue.id });
     const handleAssignIssue = () => onAssign({ projectId: projectId, issueId: issue.id });
+    const handleStartIssue = () => onStart({ projectId: projectId, issueId: issue.id });
+    const handleCloseIssue = () => onClose({ projectId: projectId, issueId: issue.id });
 
     return (
         <Card style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'row', alignItems: "center" }}>
@@ -45,7 +47,12 @@ function IssueOverview({ projectId, issue, onDelete, onAssign }) {
 
             <Card.Body style={{ flex: 2, height: "100%", borderLeft: '1px solid black', padding: 0 }}>
                 <LinkButton variant="primary" to={`/projects/${projectId}/issues/${issue.id}`}>View</LinkButton>
-                <Button variant="primary" onClick={handleAssignIssue}>Assign</Button>
+                {
+                    (issue.status === "unassigned") ? <Button variant="primary" onClick={handleAssignIssue}>Assign</Button> :
+                    (issue.status === "open") ? <Button variant="primary" onClick={handleStartIssue}>Advance</Button> :
+                    (issue.status === "inprogress") ? <Button variant="primary" onClick={handleCloseIssue}>Advance</Button> :
+                    <Button variant="primary" disabled>{ (issue.status === "resolved") ? "Resolved" : "Closed" }</Button>
+                }
                 <DropdownButton variant="secondary" title="Settings">
                     <Dropdown.Item >Edit Issue</Dropdown.Item>
                     <Dropdown.Item onClick={handleDeleteIssue}>Delete Issue</Dropdown.Item>

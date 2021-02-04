@@ -49,6 +49,8 @@ function IssueDashboard(props) {
     )
     const { show: showDeleteIssueDialogBox, RenderDialogBox: DeleteIssueDialogBox } = useDialogBox();
     const { show: showAssignIssueDialogBox, RenderDialogBox: AssignIssueDialogBox } = useDialogBox();
+    const { show: showStartIssueDialogBox, RenderDialogBox: StartIssueDialogBox } = useDialogBox();
+    const { show: showCloseIssueDialogBox, RenderDialogBox: CloseIssueDialogBox } = useDialogBox();
     const [listParams, changeListParams] = useListParams({ order: "desc", group: "category", filter: initialFilterValue, search: "" });
 
     const handleDeleteIssue = async ({ data }) => {
@@ -59,7 +61,14 @@ function IssueDashboard(props) {
         await issuesApi.assignIssue(data.projectId, data.issueId, values.collaboratorId, auth.user.token);
     }
 
-    console.log(listParams);
+    const handleStartIssue = async ({ data }) => {
+        await issuesApi.advanceIssue(data.projectId, data.issueId, "inprogress", auth.user.token);
+    }
+
+    const handleCloseIssue = async ({ data, values }) => {
+        await issuesApi.advanceIssue(data.projectId, data.issueId, values.status, auth.user.token);
+    }
+
     return (
         <Container fluid>
             <DeleteIssueDialogBox
@@ -85,6 +94,30 @@ function IssueDashboard(props) {
                     />
                 )}
             />
+            <StartIssueDialogBox
+                heading="Begin Issue"
+                submitButtonText="Advance"
+                onSubmit={handleStartIssue}
+                render={({ data }) => 'Are you sure you would like to begin issue ' + data.issueId + '? The status of this issue will be advanced to "inprogress".'}
+            />
+            <CloseIssueDialogBox
+                heading="Complete Issue"
+                submitButtonText="Complete"
+                formId="complete-status"  
+                onSubmit={handleCloseIssue}
+                render={() => (
+                    <>
+                        <div>Please select how you would like to complete this issue? </div>
+                        <SelectForm 
+                            formId="complete-status"  
+                            fieldName="status"
+                            initialValues={{ "status": ""}} 
+                            selectItems={[{ status: "closed" }, { status: "resolved" }]} 
+                            itemKey="status"
+                        />
+                    </>
+                )}
+            />
             <IssueNavBar render={() => (
                 <>
                     <InlineSearch onSubmit={(searchText) => { changeListParams("search", searchText) }}/>
@@ -106,6 +139,8 @@ function IssueDashboard(props) {
 
                 onDelete={showDeleteIssueDialogBox}
                 onAssign={showAssignIssueDialogBox}
+                onStart={showStartIssueDialogBox}
+                onClose={showCloseIssueDialogBox}
             />
         </Container>
     )
