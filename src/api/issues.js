@@ -59,8 +59,22 @@ async function advanceIssue(projectId, issueId, status, authToken) {
     }
 }
 
+async function addComment(projectId, issueId, comment, authToken) {
+    try {
+        const headers = authHeader(authToken);
+        const result = await axios.post(
+            `http://localhost:3001/api/projects/${projectId}/issues/${issueId}/comments`,
+            { comment },
+            { headers }
+        )
+        console.log(result);
+    } catch(err) {
+        console.log(err);
+    }
+}
+
 const issuesApi = {
-    createIssue, updateIssue, deleteIssue, assignIssue, advanceIssue
+    createIssue, updateIssue, deleteIssue, assignIssue, advanceIssue, addComment
 }
 
 export default issuesApi;

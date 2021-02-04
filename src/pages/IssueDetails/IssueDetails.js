@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import CommentList from '../../components/app/CommentList/CommentList';
 import useResource from '../../hooks/useResource';
 import useAuth from '../../hooks/useAuth';
 import withEdit from '../../components/hocs/withEdit/withEdit';
@@ -13,6 +14,10 @@ function IssueDetails(props) {
         `http://localhost:3001/api/projects/${props.match.params.projectId}/issues/${props.match.params.issueId}`,
         auth.user ? auth.user.token : null
     );
+    const comments = useResource(
+        `http://localhost:3001/api/projects/${props.match.params.projectId}/issues/${props.match.params.issueId}/comments`,
+        auth.user ? auth.user.token : null
+    );
 
     const EditBox = withEdit(Col, "text");
     const EditArea = withEdit(Col, "textarea");
@@ -21,6 +26,12 @@ function IssueDetails(props) {
     const handleEdit = async (value) => {
         const result = await issuesApi.updateIssue(props.match.params.projectId, issue.data.id, auth.user.token, value);
         console.log(result);
+    }
+
+    const handleAddComment = async (e) => {
+        e.preventDefault();
+        const comment = e.target[1].value
+        const result = await issuesApi.addComment(props.match.params.projectId, issue.data.id, comment, auth.user.token);
     }
 
     return (
@@ -92,6 +103,24 @@ function IssueDetails(props) {
                 <Row>
                     <Col lg={4} md={4} sm={4} xs={4}>Assigned to</Col>
                     <Col as="p" lg={6} md={6} sm={6} xs={6}>{issue.data.assigneeId}</Col>
+                </Row>
+
+                <Row>
+                    <Col lg={4} md={4} sm={4} xs={4}>
+                        <Button variant="outline-primary" type="submit" form="add-comment">Add Comment</Button>
+                    </Col>
+                    <Col lg={4} md={4} sm={4} xs={4}>
+                        <Form id="add-comment" onSubmit={handleAddComment}>
+                            <Form.Group controlId="comment">
+                                <Form.Control as="textarea" placeholder="Enter comment" />
+                            </Form.Group>
+                        </Form>
+                    </Col>
+                </Row>
+                
+                <Row>
+                    <Col lg={4} md={4} sm={4} xs={4}>Comments</Col>
+                    <CommentList comments={comments.data}/>
                 </Row>
 
         </Container>
