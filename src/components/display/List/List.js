@@ -22,11 +22,14 @@ function List({ listItems, groupKey = null, groupValues = null, orderBy = 'asc',
             }
         }
         // Also, filter out items not matching the current search (item['searchKeys'] !== 'searchText')
-        if(searchText !== "") {
+        if(isAllowed && searchText !== "") {
             for(let key of searchKeys) {
-                if(includes(item[key].toLowerCase(), searchText.toLowerCase()) === false) {
-                    isAllowed = false;
-                } else break;
+                console.log("Checking", item[key], "for", searchText);
+                if(includes(item[key].toLowerCase(), searchText.toLowerCase()) === true) {
+                    console.log("PASS")
+                    isAllowed = true;
+                    break;
+                }
             }
         }
         return isAllowed;
