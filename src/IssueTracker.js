@@ -25,12 +25,12 @@ function IssueTracker() {
                     <Route path="/login" component={LoginPage} />
                     <Route path="/signup" component={SignupPage} />
                     <PrivateRoute path="/dashboard" component={Dashboard} />
-                    <Route path="/projects/:projectId/issues/new" component={NewIssuePage} />
-                    <Route path="/projects/:projectId/issues/:issueId" component={IssueDetails} />
-                    <Route path="/projects/:projectId/issues" component={IssueDashboard} />
-                    <Route path="/projects/new" component={NewProjectPage} />
-                    <Route path="/projects/:projectId/" component={ProjectDetails} />
-                    <Route path="/projects" component={ProjectDashboard} />
+                    <PrivateRoute path="/projects/:projectId/issues/new" component={NewIssuePage} />
+                    <PrivateRoute path="/projects/:projectId/issues/:issueId" component={IssueDetails} />
+                    <PrivateRoute path="/projects/:projectId/issues" component={IssueDashboard} />
+                    <PrivateRoute path="/projects/new" component={NewProjectPage} />
+                    <PrivateRoute path="/projects/:projectId/" component={ProjectDetails} />
+                    <PrivateRoute path="/projects" component={ProjectDashboard} />
                     <Route path="/">
                         <div>Home</div>
                     </Route>
