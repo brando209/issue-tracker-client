@@ -10,7 +10,7 @@ function NewIssuePage(props) {
     const [redirect, setRedirect] = useState(false);
 
     const addNewIssue = async (newIssue) => {
-        await issuesApi.createIssue(props.match.params.projectId, newIssue, auth.user.token);
+        props.onSubmit(props.match.params.projectId, newIssue);
         setRedirect(true);
     }
 

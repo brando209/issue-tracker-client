@@ -5,17 +5,17 @@ async function createIssue(projectId, issueInfo, authToken) {
     try {
         const headers = authHeader(authToken)
         const issue = await axios.post(`http://localhost:3001/api/projects/${projectId}/issues`, issueInfo, { headers });
-        return issue;
+        return issue.data;
     } catch(err) {
         console.log(err);
     }
 }
 
-async function updateIssue(projectId, issueId, authToken, update) {
+async function updateIssue(projectId, issueId, update, authToken) {
     try {
         const headers = authHeader(authToken);
         const issue = await axios.patch(`http://localhost:3001/api/projects/${projectId}/issues/${issueId}`, update, { headers });
-        return issue;
+        return issue.data;
     } catch(err) {
         console.log(err);
     }
@@ -25,7 +25,7 @@ async function deleteIssue(projectId, issueId, authToken) {
     try {
         const headers = authHeader(authToken);
         const issue = await axios.delete(`http://localhost:3001/api/projects/${projectId}/issues/${issueId}`, { headers });
-        return issue;
+        return issue.data;
     } catch(err) {
         console.log(err);
     }
@@ -39,7 +39,7 @@ async function assignIssue(projectId, issueId, assigneeId, authToken) {
             { assigneeId },
             { headers }
         )
-        console.log(issue);
+        return issue.data;
     } catch(err) {
         console.log(err);
     }
@@ -53,7 +53,7 @@ async function advanceIssue(projectId, issueId, status, authToken) {
             { status },
             { headers }
         )
-        console.log(issue);
+        return issue.data;
     } catch(err) {
         console.log(err);
     }

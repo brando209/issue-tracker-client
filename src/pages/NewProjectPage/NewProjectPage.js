@@ -5,15 +5,14 @@ import useAuth from '../../hooks/useAuth';
 import projectsApi from '../../api/projects'; 
 import NewProjectForm from '../../components/form/NewProjectForm';
 
-function NewProjectPage() {
+function NewProjectPage(props) {
     const auth = useAuth();
-    const [redirect, setRedirect] = useState(false)
+    const [redirect, setRedirect] = useState(false);
 
     const createNewProject = async (newProject) => {
         console.log("Creating project with token " + auth.user.token);
-        const project = await projectsApi.createProject(newProject, auth.user.token);
+        props.onSubmit(newProject);
         setRedirect(true);
-        console.log(project);
     }
 
     return (

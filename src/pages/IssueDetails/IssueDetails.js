@@ -8,13 +8,9 @@ import issuesApi from '../../api/issues';
 
 import './IssueDetails.css';
 
-function IssueDetails(props) {
+function IssueDetails({ issue, ...props }) {
     const auth = useAuth();
-    const issue = useResource(
-        `http://localhost:3001/api/projects/${props.match.params.projectId}/issues/${props.match.params.issueId}`,
-        auth.user ? auth.user.token : null
-    );
-    const comments = useResource(
+    const [comments, setComments] = useResource(
         `http://localhost:3001/api/projects/${props.match.params.projectId}/issues/${props.match.params.issueId}/comments`,
         auth.user ? auth.user.token : null
     );
@@ -24,14 +20,13 @@ function IssueDetails(props) {
     const EditSelect = withEdit(Col, "select");
 
     const handleEdit = async (value) => {
-        const result = await issuesApi.updateIssue(props.match.params.projectId, issue.data.id, auth.user.token, value);
-        console.log(result);
+        props.onEdit(props.match.params.projectId, issue.id, value);
     }
 
     const handleAddComment = async (e) => {
         e.preventDefault();
         const comment = e.target[1].value
-        const result = await issuesApi.addComment(props.match.params.projectId, issue.data.id, comment, auth.user.token);
+        const result = await issuesApi.addComment(props.match.params.projectId, issue.id, comment, auth.user.token);
     }
 
     return (
@@ -39,11 +34,11 @@ function IssueDetails(props) {
                 <Row className="justify-content-center title">
                     <EditBox 
                         as="h3" 
-                        value={issue.data.title} 
+                        value={issue.title} 
                         name="title" 
                         onEdit={handleEdit}
                     >
-                        {issue.data.title}
+                        {issue.title}
                     </EditBox>
                 </Row>
 
@@ -51,11 +46,11 @@ function IssueDetails(props) {
                     <Col lg={4} md={4} sm={4} xs={4}>Description</Col>
                     <EditArea 
                         as="p" lg={6} md={6} sm={6} xs={6}
-                        value={issue.data.description} 
+                        value={issue.description} 
                         name="description" 
                         onEdit={handleEdit}
                     >
-                        {issue.data.description}
+                        {issue.description}
                     </EditArea>
                 </Row>
 
@@ -63,12 +58,12 @@ function IssueDetails(props) {
                     <Col lg={4} md={4} sm={4} xs={4}>Category</Col>
                     <EditSelect 
                         as="p" lg={6} md={6} sm={6} xs={6}
-                        value={issue.data.category} 
+                        value={issue.category} 
                         name="category" 
                         onEdit={handleEdit} 
                         options={["bug", "feature", "task"]}
                     >
-                        {issue.data.category}
+                        {issue.category}
                     </EditSelect>
                 </Row>
 
@@ -76,33 +71,33 @@ function IssueDetails(props) {
                     <Col lg={4} md={4} sm={4} xs={4}>Priority</Col>
                     <EditSelect 
                         as="p" lg={6} md={6} sm={6} xs={6}
-                        value={issue.data.priority} 
+                        value={issue.priority} 
                         name="priority" 
                         onEdit={handleEdit} 
                         options={["critical", "high", "regular", "low", "trivial"]}
                     >
-                        {issue.data.priority}
+                        {issue.priority}
                     </EditSelect>
                 </Row>
 
                 <Row>
                     <Col lg={4} md={4} sm={4} xs={4}>Status</Col>
-                    <Col as="p" lg={6} md={6} sm={6} xs={6}>{issue.data.status}</Col>
+                    <Col as="p" lg={6} md={6} sm={6} xs={6}>{issue.status}</Col>
                 </Row>
 
                 <Row>
                     <Col lg={4} md={4} sm={4} xs={4}>Created on</Col>
-                    <Col as="p" lg={6} md={6} sm={6} xs={6}>{issue.data.created_at}</Col>
+                    <Col as="p" lg={6} md={6} sm={6} xs={6}>{issue.created_at}</Col>
                 </Row>
 
                 <Row>
                     <Col lg={4} md={4} sm={4} xs={4}>Created by</Col>
-                    <Col as="p" lg={6} md={6} sm={6} xs={6}>{issue.data.creatorId}</Col>
+                    <Col as="p" lg={6} md={6} sm={6} xs={6}>{issue.creatorId}</Col>
                 </Row>
 
                 <Row>
                     <Col lg={4} md={4} sm={4} xs={4}>Assigned to</Col>
-                    <Col as="p" lg={6} md={6} sm={6} xs={6}>{issue.data.assigneeId}</Col>
+                    <Col as="p" lg={6} md={6} sm={6} xs={6}>{issue.assigneeId}</Col>
                 </Row>
 
                 <Row>

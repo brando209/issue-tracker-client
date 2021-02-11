@@ -37,13 +37,9 @@ const initialFilterValue = {
     }
 }
 
-function IssueDashboard(props) {
+function IssueDashboard({ issues, ...props }) {
     const auth = useAuth();
-    const issues = useResource(
-        `http://localhost:3001/api/projects/${props.match.params.projectId}/issues`,
-        auth.user ? auth.user.token : null
-    );
-    const collaborators = useResource(
+    const [collaborators, setCollaborators] = useResource(
         `http://localhost:3001/api/projects/${props.match.params.projectId}/collaborators`,
         auth.user ? auth.user.token : null
     )
@@ -54,19 +50,19 @@ function IssueDashboard(props) {
     const [listParams, changeListParams] = useListParams({ order: "desc", group: "category", filter: initialFilterValue, search: "" });
 
     const handleDeleteIssue = async ({ data }) => {
-        await issuesApi.deleteIssue(data.projectId, data.issueId, auth.user.token);
+        props.onDelete(data.projectId, data.issueId);
     }
 
     const handleAssignIssue = async ({ data, values }) => {
-        await issuesApi.assignIssue(data.projectId, data.issueId, values.collaboratorId, auth.user.token);
+        props.onAssign(data.projectId, data.issueId, values.collaboratorId);
     }
 
     const handleStartIssue = async ({ data }) => {
-        await issuesApi.advanceIssue(data.projectId, data.issueId, "inprogress", auth.user.token);
+        props.onStart(data.projectId, data.issueId);
     }
 
     const handleCloseIssue = async ({ data, values }) => {
-        await issuesApi.advanceIssue(data.projectId, data.issueId, values.status, auth.user.token);
+        props.onClose(data.projectId, data.issueId, values.status);
     }
 
     return (
@@ -129,7 +125,7 @@ function IssueDashboard(props) {
             )}/>
             <IssueList 
                 projectId={props.match.params.projectId} 
-                issueList={issues.data}
+                issueList={issues}
 
                 groupBy={listParams.group}
                 orderBy={listParams.order}
