@@ -27,7 +27,7 @@ function useResource(path, authToken) {
 
     }, [path, authToken]);
 
-    return resource;
+    return [resource, setResource];
 }
 
 export default useResource;
