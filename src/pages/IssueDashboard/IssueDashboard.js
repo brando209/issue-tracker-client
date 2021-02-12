@@ -118,7 +118,7 @@ function IssueDashboard({ issues, ...props }) {
                 <>
                     <InlineSearch onSubmit={(searchText) => { changeListParams("search", searchText) }}/>
                     <IssueFilterControl 
-                        initialFilterValue={initialFilterValue}
+                        filters={listParams.filter}
                         onSelect={changeListParams}
                     />
                 </>
