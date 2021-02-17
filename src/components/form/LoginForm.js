@@ -2,11 +2,13 @@ import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
+import { LoginSchema } from '../../utility/schema/validation'
 
 function LoginForm({ onSubmit }) {
     return (
         <Formik
             initialValues={{ userName: "", password: "" }}
+            validationSchema={LoginSchema}
             onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(true);
                 try {

@@ -1,11 +1,13 @@
 import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Button } from 'react-bootstrap';
+import { ProjectSchema } from '../../utility/schema/validation';
 
 function NewProjectForm({ onSubmit }) {
     return (
         <Formik
             initialValues={{ name: "", description: "" }}
+            validationSchema={ProjectSchema}
             onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(true);
                 try {

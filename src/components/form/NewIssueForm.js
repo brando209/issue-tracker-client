@@ -1,11 +1,13 @@
 import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Button } from 'react-bootstrap';
+import { IssueSchema } from '../../utility/schema/validation';
 
 function NewIssueForm({ onSubmit }) {
     return (
         <Formik
             initialValues={{ title: "", description: "", category: "other", priority: "regular", status: "unassigned" }}
+            validationSchema={IssueSchema}
             onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(true);
                 try {

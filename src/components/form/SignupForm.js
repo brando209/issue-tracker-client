@@ -2,15 +2,17 @@ import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import { SignupSchema } from '../../utility/schema/validation';
 
 function SignupForm(props) {
     return (
         <Formik
             initialValues={{ firstName: "", lastName: "", email: "", userName: "", password: "", confirmPassword: "" }}
+            validationSchema={SignupSchema}
             onSubmit={async (values, form) => {
                 form.setSubmitting(true);
                 try {
-                    props.onSubmit(values);
+                    await props.onSubmit(values);
                 } catch (err) {
                     console.log(err);
                 }

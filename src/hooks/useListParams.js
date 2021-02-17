@@ -12,6 +12,7 @@ function useListParams(initialParams) {
         } else {
             setListParams(store);
         }
+    // eslint-disable-next-line
     }, []);
 
     // Save updated list params to local storage
