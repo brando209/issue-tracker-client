@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
-import auth from '../api/auth';
+import authApi from '../api/auth';
 
 export const authContext = createContext({ });
 
@@ -18,7 +18,7 @@ function useProvideAuth() {
 
     useEffect(() => {
         const loginWithToken = async () => {
-            await auth.tokenLogin((user) => {
+            await authApi.tokenLogin((user) => {
                 user ? console.log("Logged in as " + user.userName) : console.log("Not logged in");
                 setUser(user);
             });
@@ -28,23 +28,23 @@ function useProvideAuth() {
     }, []);
 
     const signup = (userInfo, cb) => {
-        return auth.signup(userInfo, (data) => {
+        return authApi.signup(userInfo, (data) => {
             console.log(data);
             cb(data);
         })
     }
 
     const login = (credentials, cb) => {
-        return auth.login(credentials, (user) => {
+        return authApi.login(credentials, (user) => {
             setUser(user);
             cb(user);
         })
     }
 
     const logout = cb => {
-        return auth.logout(() => {
+        return authApi.logout(() => {
             setUser(null);
-            cb()
+            cb();
         });
     }
 
