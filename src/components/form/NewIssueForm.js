@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { IssueSchema } from '../../utility/schema/validation';
 
 function NewIssueForm({ onSubmit }) {
@@ -9,11 +9,13 @@ function NewIssueForm({ onSubmit }) {
             initialValues={{ title: "", description: "", category: "other", priority: "regular", status: "unassigned" }}
             validationSchema={IssueSchema}
             onSubmit={async (values, { setSubmitting }) => {
+                console.log("Submitting")
                 setSubmitting(true);
                 try {
                     const newIssue = values;
+                    console.log(newIssue);
                     delete newIssue.assign;
-                    onSubmit(newIssue)
+                    await onSubmit(newIssue)
                 } catch (err) {
                     console.log(err);
                 }
@@ -22,52 +24,74 @@ function NewIssueForm({ onSubmit }) {
         >
             {({ isSubmitting }) => (
                 <Form className="form">
-                    <h3>Add New Issue</h3>
+                    <Row as="h3">Add New Issue</Row>
 
-                    <div>
-                        <label htmlFor="title">Issue Title</label>
-                        <Field name="title" type="text" className="form-input" />
-                        <ErrorMessage name="title" className="form-error" />
-                    </div>
+                    <Row>
+                        <Col>
+                            <label htmlFor="title">Issue Title</label>
+                        </Col>
+                        <Col>
+                            <Field name="title" type="text" className="form-input" />
+                            <ErrorMessage name="title" className="form-error" />
+                        </Col>
+                    </Row>
 
-                    <div>
-                        <label htmlFor="description">Description</label>
-                        <Field name="description" as="textarea" className="form-input" />
-                        <ErrorMessage name="description" className="form-error" />
-                    </div>
+                    <Row>
+                        <Col>
+                            <label htmlFor="description">Description</label>
+                        </Col>
+                        <Col>
+                            <Field name="description" as="textarea" className="form-input" />
+                            <ErrorMessage name="description" className="form-error" />
+                        </Col>
+                    </Row>
 
-                    <div>
-                        <label htmlFor="category">Category</label>
-                        <Field name="category" as="select" className="form-input">
-                            <option value="bug">Bug</option>
-                            <option value="feature">Feature</option>
-                            <option value="task">Task</option>
-                            <option value="other">Uncategorized</option>
-                        </Field>
-                        <ErrorMessage name="category" className="form-error" />
-                    </div>
+                    <Row>
+                        <Col>
+                            <label htmlFor="category">Category</label>
+                        </Col>
+                        <Col>
+                            <Field name="category" as="select" className="form-input">
+                                <option value="bug">Bug</option>
+                                <option value="feature">Feature</option>
+                                <option value="task">Task</option>
+                                <option value="other">Uncategorized</option>
+                            </Field>
+                            <ErrorMessage name="category" className="form-error" />
+                        </Col>
+                    </Row>
 
-                    <div>
-                        <label htmlFor="priority">Priority</label>
-                        <Field name="priority" as="select" className="form-input">
-                            <option value="trivial">Trivial</option>
-                            <option value="low">Low</option>
-                            <option value="regular">Regular</option>
-                            <option value="high">High</option>
-                            <option value="critical">Critical</option>
-                        </Field>
-                        <ErrorMessage name="priority" className="form-error" />
-                    </div>
+                    <Row>
+                        <Col>
+                            <label htmlFor="priority">Priority</label>
+                        </Col>
+                        <Col>
+                            <Field name="priority" as="select" className="form-input">
+                                <option value="trivial">Trivial</option>
+                                <option value="low">Low</option>
+                                <option value="regular">Regular</option>
+                                <option value="high">High</option>
+                                <option value="critical">Critical</option>
+                            </Field>
+                            <ErrorMessage name="priority" className="form-error" />
+                        </Col>
+                    </Row>
 
-                    <div>
-                        <label htmlFor="assign">Assign</label>
-                        <Field name="assign" type="text" className="form-input" />
-                        <ErrorMessage name="assign" className="form-error" />
-                    </div>
+                    <Row>
+                        <Col>
+                            <label htmlFor="assign">Assign</label>
+                        </Col>
+                        <Col>
+                            <Field name="assign" type="text" className="form-input" />
+                            <ErrorMessage name="assign" className="form-error" />
+                        </Col>
+                    </Row>
 
-                    <Button variant="primary" type="submit" disabled={isSubmitting}>
-                        Add Issue
-                    </Button>
+                    <Row>
+                        <Button variant="primary" type="submit" disabled={isSubmitting}>
+                            Add Issue
+                        </Button>
+                    </Row>
 
                 </Form>
             )}

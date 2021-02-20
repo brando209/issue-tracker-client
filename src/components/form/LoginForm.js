@@ -1,7 +1,8 @@
 import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
+import { Row, Col, Button} from 'react-bootstrap';
+
 import { LoginSchema } from '../../utility/schema/validation'
 
 function LoginForm({ onSubmit }) {
@@ -12,7 +13,7 @@ function LoginForm({ onSubmit }) {
             onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(true);
                 try {
-                    onSubmit(values)
+                    await onSubmit(values)
                 } catch (err) {
                     console.log(err);
                 }
@@ -21,27 +22,33 @@ function LoginForm({ onSubmit }) {
         >
             {({ isSubmitting }) => (
                 <Form className="form">
-                    <h3>Log In</h3>
+                    <Row as="h3">Log In</Row>
 
-                    <div>
-                        <label htmlFor="userName">Username</label>
-                    </div>
-                    <div>
-                        <Field name="userName" type="text" className="form-input" />
-                        <ErrorMessage name="userName" className="form-error" />
-                    </div>
+                    <Row>
+                        <Col>
+                            <label htmlFor="userName">Username</label>
+                        </Col>
+                        <Col>
+                            <Field name="userName" type="text" className="form-input" />
+                            <ErrorMessage name="userName" className="form-error" />
+                        </Col>
+                    </Row>
 
-                    <div>
-                        <label htmlFor="password">Password</label>
-                    </div>
-                    <div>
-                        <Field name="password" type="password" className="form-input" />
-                        <ErrorMessage name="password" className="form-error" />
-                    </div>
+                    <Row>
+                        <Col>
+                            <label htmlFor="password">Password</label>
+                        </Col>
+                        <Col>
+                            <Field name="password" type="password" className="form-input" />
+                            <ErrorMessage name="password" className="form-error" />
+                        </Col>
+                    </Row>
 
-                    <Button variant="primary" type="submit" disabled={isSubmitting}>
-                        Submit
-                    </Button>
+                    <Row>
+                        <Button variant="primary" type="submit" disabled={isSubmitting}>
+                            Submit
+                        </Button>
+                    </Row>
 
                     <p>Don't have an account yet? Please <Link to="signup">Sign up</Link> to continue.</p>
                 </Form>

@@ -120,7 +120,7 @@ function ProjectDashboard({ match }) {
     }
 
     return (
-        <Container fluid>
+        <>
             <DeleteDialogBox
                 heading="Delete Project"
                 closeButtonText="Cancel"
@@ -191,7 +191,7 @@ function ProjectDashboard({ match }) {
                     <ProjectDetails {...routerProps} />
                 }/>
             </Switch>
-        </Container>
+        </>
     )
 }
 

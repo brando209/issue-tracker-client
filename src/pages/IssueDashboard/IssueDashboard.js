@@ -66,7 +66,7 @@ function IssueDashboard({ issues, ...props }) {
     }
 
     return (
-        <Container fluid>
+        <>
             <DeleteIssueDialogBox
                 heading="Delete Issue"
                 submitButtonText="Delete"
@@ -138,7 +138,7 @@ function IssueDashboard({ issues, ...props }) {
                 onStart={showStartIssueDialogBox}
                 onClose={showCloseIssueDialogBox}
             />
-        </Container>
+        </>
     )
 }
 

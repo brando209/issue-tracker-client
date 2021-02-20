@@ -1,8 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-
+import { Container } from 'react-bootstrap';
 import useAuth from '../../hooks/useAuth';
 import LoginForm from '../../components/form/LoginForm';
+
+import '../page.css';
 
 function LoginPage() {
     const auth = useAuth();
@@ -16,7 +18,9 @@ function LoginPage() {
     return (
         auth.user ? 
             <Redirect to="/dashboard"/> :
-            <LoginForm onSubmit={login}/>
+            <Container fluid className="page">
+                <LoginForm onSubmit={login}/>
+            </Container>
     )
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { ProjectSchema } from '../../utility/schema/validation';
 
 function NewProjectForm({ onSubmit }) {
@@ -11,7 +11,7 @@ function NewProjectForm({ onSubmit }) {
             onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(true);
                 try {
-                    onSubmit(values)
+                    await onSubmit(values)
                 } catch (err) {
                     console.log(err);
                 }
@@ -20,27 +20,33 @@ function NewProjectForm({ onSubmit }) {
         >
             {({ isSubmitting }) => (
                 <Form className="form">
-                    <h3>Create New Project</h3>
+                    <Row as="h3">Create New Project</Row>
 
-                    <div>
-                        <label htmlFor="name">Project Name</label>
-                    </div>
-                    <div>
-                        <Field name="name" type="text" className="form-input" />
-                        <ErrorMessage name="name" className="form-error" />
-                    </div>
+                    <Row>
+                        <Col>
+                            <label htmlFor="name">Project Name</label>
+                        </Col>
+                        <Col>
+                            <Field name="name" type="text" className="form-input" />
+                            <ErrorMessage name="name" className="form-error" />
+                        </Col>
+                    </Row>
 
-                    <div>
-                        <label htmlFor="description">Description</label>
-                    </div>
-                    <div>
-                        <Field name="description" type="text" className="form-input" />
-                        <ErrorMessage name="description" className="form-error" />
-                    </div>
+                    <Row>
+                        <Col>
+                            <label htmlFor="description">Description</label>
+                        </Col>
+                        <Col>
+                            <Field name="description" as="textarea" className="form-input" />
+                            <ErrorMessage name="description" className="form-error" />
+                        </Col>
+                    </Row>
 
-                    <Button variant="primary" type="submit" disabled={isSubmitting}>
-                        Create Project
-                    </Button>
+                    <Row>
+                        <Button variant="primary" type="submit" disabled={isSubmitting}>
+                            Create Project
+                        </Button>
+                    </Row>
 
                 </Form>
             )}

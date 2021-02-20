@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
 
 import useAuth from '../../hooks/useAuth';
-import projectsApi from '../../api/projects'; 
 import NewProjectForm from '../../components/form/NewProjectForm';
 
 function NewProjectPage(props) {
@@ -11,14 +11,16 @@ function NewProjectPage(props) {
 
     const createNewProject = async (newProject) => {
         console.log("Creating project with token " + auth.user.token);
-        props.onSubmit(newProject);
+        await props.onSubmit(newProject);
         setRedirect(true);
     }
 
     return (
         redirect === true ? 
         <Redirect to="/projects"/> :
-        <NewProjectForm onSubmit={createNewProject} />
+        <Container fluid className="page">
+            <NewProjectForm onSubmit={createNewProject} />
+        </Container>
     )
 }
 

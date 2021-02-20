@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { Container } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
 import SignupForm from '../../components/form/SignupForm';
 import useAuth from '../../hooks/useAuth';
+
+import '../page.css';
 
 function SignupPage() {
     const auth = useAuth();
@@ -18,7 +21,9 @@ function SignupPage() {
     return (
         redirect === true ?
         <Redirect to="/" /> :
-        <SignupForm onSubmit={signup} />
+        <Container fluid className="page">
+            <SignupForm onSubmit={signup} />
+        </Container>
     )
 }
 
