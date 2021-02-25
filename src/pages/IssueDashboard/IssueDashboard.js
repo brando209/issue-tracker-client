@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
 
 import useAuth from '../../hooks/useAuth';
 import useResource from '../../hooks/useResource';
@@ -8,7 +7,6 @@ import IssueNavBar from '../../components/app/Navigation/IssueNavBar';
 import IssueList from '../../components/app/IssueList/IssueList';
 import IssueFilterControl from '../../components/app/IssueFilterControl/IssueFilterControl';
 
-import issuesApi  from '../../api/issues';
 import useDialogBox from '../../hooks/useDialogBox';
 import useListParams from '../../hooks/useListParams';
 import SelectForm from '../../components/form/SelectForm';
@@ -42,7 +40,7 @@ function IssueDashboard({ issues, ...props }) {
     const [collaborators, setCollaborators] = useResource(
         `http://localhost:3001/api/projects/${props.match.params.projectId}/collaborators`,
         auth.user ? auth.user.token : null
-    )
+    );
     const { show: showDeleteIssueDialogBox, RenderDialogBox: DeleteIssueDialogBox } = useDialogBox();
     const { show: showAssignIssueDialogBox, RenderDialogBox: AssignIssueDialogBox } = useDialogBox();
     const { show: showStartIssueDialogBox, RenderDialogBox: StartIssueDialogBox } = useDialogBox();
