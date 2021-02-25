@@ -3,19 +3,21 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Row, Col, Button } from 'react-bootstrap';
 import { IssueSchema } from '../../utility/schema/validation';
 
-function NewIssueForm({ onSubmit }) {
+function NewIssueForm({ onSubmit, collaborators }) {
     return (
         <Formik
-            initialValues={{ title: "", description: "", category: "other", priority: "regular", status: "unassigned" }}
+            initialValues={{ title: "", description: "", category: "other", priority: "regular", status: "unassigned", assigneeId: "" }}
             validationSchema={IssueSchema}
             onSubmit={async (values, { setSubmitting }) => {
                 console.log("Submitting")
                 setSubmitting(true);
                 try {
                     const newIssue = values;
-                    console.log(newIssue);
-                    delete newIssue.assign;
-                    await onSubmit(newIssue)
+
+                    if(newIssue.assigneeId === "") delete newIssue.assigneeId;
+                    else newIssue.status = "open";
+
+                    await onSubmit(newIssue);
                 } catch (err) {
                     console.log(err);
                 }
@@ -82,7 +84,12 @@ function NewIssueForm({ onSubmit }) {
                             <label htmlFor="assign">Assign</label>
                         </Col>
                         <Col>
-                            <Field name="assign" type="text" className="form-input" />
+                            <Field name="assigneeId" as="select" className="form-input" >
+                                <option value="">Unassigned</option>
+                                {
+                                    collaborators.map(user => <option value={user.id}>{user.userName}</option>)
+                                }
+                            </Field>
                             <ErrorMessage name="assign" className="form-error" />
                         </Col>
                     </Row>
