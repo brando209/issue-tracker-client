@@ -68,13 +68,28 @@ async function addComment(projectId, issueId, comment, authToken) {
             { headers }
         )
         console.log(result);
+        return result.data;
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+async function deleteComment(projectId, issueId, commentId, authToken) {
+    try {
+        const headers = authHeader(authToken);
+        const result = await axios.delete(
+            `http://localhost:3001/api/projects/${projectId}/issues/${issueId}/comments/${commentId}`,
+            { headers }
+        )
+        console.log(result);
+        return result.data;
     } catch(err) {
         console.log(err);
     }
 }
 
 const issuesApi = {
-    createIssue, updateIssue, deleteIssue, assignIssue, advanceIssue, addComment
+    createIssue, updateIssue, deleteIssue, assignIssue, advanceIssue, addComment, deleteComment
 }
 
 export default issuesApi;
