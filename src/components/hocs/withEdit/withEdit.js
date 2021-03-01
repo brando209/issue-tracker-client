@@ -1,17 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
-import editIcon from '../../../images/edit-icon-png-small.png'
+import { Col } from 'react-bootstrap';
+import './withEdit.css';
 
 const withEdit = (WrappedComponent, type) => (
-    ({ onEdit, name, ...props }) => {
-        const [editing, setEditing] = useState(false);
+    ({ onEdit, name, isEditing = false, ...props }) => { // isEditing prop is used to force editing mode from outside
+        const [editing, setEditing] = useState(isEditing);
         const [value, setValue] = useState(props.value);
         const inputRef = useRef();
 
         useEffect(() => {
             inputRef && inputRef.current && inputRef.current.focus();
-        }, [editing]);
+        }, [editing, isEditing]);
 
         const handleClick = () => {
+            if(isEditing) return;
             setEditing(true);
         }
 
@@ -79,21 +81,17 @@ const withEdit = (WrappedComponent, type) => (
             }
             return null;
         }
-        
+
+        console.log(props);
         return editing ? (
-            <form onBlur={handleBlur} onSubmit={handleSubmit}>
-                {inputComponent()}
-            </form>
+            <Col xs={props.xs} sm={props.sm} md={props.md} lg={props.lg}>
+                <form onBlur={handleBlur} onSubmit={handleSubmit}>
+                    {inputComponent()}
+                </form>
+            </Col>
         ) : (
-            <WrappedComponent {...props}>
+            <WrappedComponent {...props} onClick={handleClick}>
                 {props.children}
-                <img 
-                    alt=""
-                    src={editIcon}
-                    width="25"
-                    height="25"
-                    onClick={handleClick}
-                />
             </WrappedComponent>
         )
     }
