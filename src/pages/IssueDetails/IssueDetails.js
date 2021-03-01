@@ -9,7 +9,7 @@ import issuesApi from '../../api/issues';
 
 import './IssueDetails.css';
 
-function IssueDetails({ issue, ...props }) {
+function IssueDetails({ issue, onEdit, ...props }) {
     const auth = useAuth();
     const [comments, setComments] = useResource(
         `http://localhost:3001/api/projects/${props.match.params.projectId}/issues/${props.match.params.issueId}/comments`,
@@ -23,7 +23,7 @@ function IssueDetails({ issue, ...props }) {
 
     const handleEditIssue = async (value) => {
         console.log(value);
-        props.onEdit(props.match.params.projectId, issue.id, value);
+        onEdit(props.match.params.projectId, issue.id, value);
     }
 
     const handleAddComment = async (e) => {
@@ -39,14 +39,38 @@ function IssueDetails({ issue, ...props }) {
 
     const handleDeleteComment = async ({ data }) => {
         console.log("Deleting comment", data);
-        const deletedComment = await issuesApi.deleteComment(props.match.params.projectId, issue.id, data.commentId, auth.user.token);
-        console.log(deletedComment);
+        await issuesApi.deleteComment(props.match.params.projectId, issue.id, data.commentId, auth.user.token);
         setComments(prev => {
             const comments = prev.data.slice();
             const commentIdx = comments.findIndex(comment => comment.id === data.commentId);
             if(commentIdx !== -1) comments.splice(commentIdx, 1);
             return { ...prev, data: comments };
         })
+    }
+
+    const handleEditComment = async (commentId, commentBody) => {
+        const comment = await issuesApi.updateComment(
+            props.match.params.projectId, 
+            issue.id, 
+            commentId, 
+            commentBody, 
+            auth.user.token
+        );
+        setComments(prev => {
+            const comments = prev.data.slice();
+            const commentIdx = comments.findIndex(comment => comment.id === commentId);
+            comments[commentIdx] = comment;
+            return { ...prev, data: comments };
+        })
+    }
+
+    const advanceButtonText = (issue.status === "unassigned") ? "Assign Issue" :
+        (issue.status === "open") ? "Advance Issue" :
+        (issue.status === "inprogress") ? "Close Issue" : 
+        issue.status;
+
+    const handleAdvanceIssue = () => {
+        props.onClose({ projectId: props.match.params.projectId, issueId: issue.id });
     }
 
     return (
@@ -111,6 +135,15 @@ function IssueDetails({ issue, ...props }) {
                 <Col lg={4} md={4} sm={4} xs={4}>Status</Col>
                 <Col as="p" lg={6} md={6} sm={6} xs={6}>
                     {issue.status}
+                    {
+                        <Button 
+                            className="mx-1" size="sm" 
+                            hidden={issue.status === "resolved" || issue.status === "closed"}
+                            onClick={handleAdvanceIssue}
+                        >
+                            {advanceButtonText}
+                        </Button>
+                    } 
                 </Col>
             </Row>
 
@@ -156,6 +189,7 @@ function IssueDetails({ issue, ...props }) {
                 <Col lg={4} md={4} sm={4} xs={4}>Comments</Col>
                 <CommentList 
                     comments={comments.data} 
+                    onEdit={handleEditComment} 
                     onDelete={showDeleteCommentDialogBox}
                 />
             </Row>

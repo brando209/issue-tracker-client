@@ -1,6 +1,7 @@
-import React from 'react';
-import { Row, Col, DropdownButton, Dropdown } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Row, Col, Dropdown } from 'react-bootstrap';
 import List from '../../display/List/List';
+import withEdit from '../../hocs/withEdit/withEdit';
 import editIcon from '../../../images/edit-icon-png-small.png';
 
 const commentBoxStyle = {
@@ -22,8 +23,21 @@ const CustomToggle = React.forwardRef(({ onClick }, ref) => (
 ));
 
 function CommentList(props) {
+    const [editId, setEditId] = useState(null);
+
     const handleDropdownSelect = (e, id) => {
         if(e === "delete") return props.onDelete({ commentId: id });
+        if(e === "edit") return showEditArea(id);
+    }
+    const EditArea = withEdit(Col, 'textarea');
+
+    const showEditArea = (commentId) => {
+        setEditId(commentId);
+    } 
+
+    const handleEditComment = (comment) => {
+        props.onEdit(editId, comment);
+        setEditId(null);
     }
 
     return (
@@ -40,7 +54,15 @@ function CommentList(props) {
                         </Dropdown.Menu>
                     </Dropdown>
                 </Col>
-                <Col xs={12}>{item.body}</Col>
+                <EditArea 
+                    lg={11} md={11} sm={11} xs={11}
+                    name="body"
+                    value={item.body}
+                    isEditing={editId === item.id}
+                    onEdit={handleEditComment}
+                >
+                    {item.body}
+                </EditArea>
             </Row>
         )}/>
     )
