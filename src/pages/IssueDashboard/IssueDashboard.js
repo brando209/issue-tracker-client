@@ -1,4 +1,6 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+
 
 import useAuth from '../../hooks/useAuth';
 import useResource from '../../hooks/useResource';
@@ -6,6 +8,7 @@ import useResource from '../../hooks/useResource';
 import IssueNavBar from '../../components/app/Navigation/IssueNavBar';
 import IssueList from '../../components/app/IssueList/IssueList';
 import IssueFilterControl from '../../components/app/IssueFilterControl/IssueFilterControl';
+import IssueDetails from '../../pages/IssueDetails/IssueDetails';
 
 import useDialogBox from '../../hooks/useDialogBox';
 import useListParams from '../../hooks/useListParams';
@@ -112,30 +115,48 @@ function IssueDashboard({ issues, ...props }) {
                     </>
                 )}
             />
-            <IssueNavBar render={() => (
-                <>
-                    <InlineSearch onSubmit={(searchText) => { changeListParams("search", searchText) }}/>
-                    <IssueFilterControl 
-                        filters={listParams.filter}
-                        onSelect={changeListParams}
-                    />
-                </>
-            )}/>
-            <IssueList 
-                projectId={props.match.params.projectId} 
-                issueList={issues}
+            <Switch>
+                <Route path={props.match.path} exact render={() => (
+                    <>
+                        <IssueNavBar render={() => (
+                            <>
+                                <InlineSearch onSubmit={(searchText) => { changeListParams("search", searchText) }}/>
+                                <IssueFilterControl 
+                                    filters={listParams.filter}
+                                    onSelect={changeListParams}
+                                />
+                            </>
+                        )}/>
+                        <IssueList 
+                            projectId={props.match.params.projectId} 
+                            issueList={issues}
 
-                groupBy={listParams.group}
-                orderBy={listParams.order}
-                filter={listParams.filter}
-                searchText={listParams.search}
-                searchKeys={["title", "description"]}
+                            groupBy={listParams.group}
+                            orderBy={listParams.order}
+                            filter={listParams.filter}
+                            searchText={listParams.search}
+                            searchKeys={["title", "description"]}
 
-                onDelete={showDeleteIssueDialogBox}
-                onAssign={showAssignIssueDialogBox}
-                onStart={showStartIssueDialogBox}
-                onClose={showCloseIssueDialogBox}
-            />
+                            onDelete={showDeleteIssueDialogBox}
+                            onAssign={showAssignIssueDialogBox}
+                            onStart={showStartIssueDialogBox}
+                            onClose={showCloseIssueDialogBox}
+                        />
+                    </>
+                )}/>
+                <Route path={`${props.match.path}/:issueId`} exact render={(routerProps) => {
+                    const issueIdx = issues.findIndex(iss => iss.id == routerProps.match.params.issueId);
+                    const issue = (issueIdx !== -1) ? issues[issueIdx] : null; 
+                    return (
+                        <IssueDetails 
+                            {...routerProps} 
+                            issue={issue}
+                            onEdit={props.onEdit}
+                            onClose={showCloseIssueDialogBox}
+                        /> 
+                    )
+                }}/>
+            </Switch>
         </>
     )
 }

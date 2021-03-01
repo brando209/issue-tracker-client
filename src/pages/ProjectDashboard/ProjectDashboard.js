@@ -12,7 +12,6 @@ import NewProjectPage from '../../pages/NewProjectPage/NewProjectPage';
 import NewIssuePage from '../../pages/NewIssuePage/NewIssuePage';
 import IssueDashboard from '../../pages/IssueDashboard/IssueDashboard';
 import ProjectDetails from '../../pages/ProjectDetails/ProjectDetails';
-import IssueDetails from '../../pages/IssueDetails/IssueDetails';
 
 import projectsApi  from '../../api/projects';
 import issuesApi  from '../../api/issues';
@@ -158,21 +157,10 @@ function ProjectDashboard({ match }) {
                 <Route path={`${match.url}/:projectId/issues/new`} exact render={(routerProps) => 
                     <NewIssuePage {...routerProps} onSubmit={handleCreateIssue}/>
                 }/>
-                <Route path={`${match.url}/:projectId/issues/:issueId`} exact render={(routerProps) => {
-                    const projectIdx = projects.data.findIndex(proj => proj.id == routerProps.match.params.projectId);
-                    const issueIdx = (projectIdx !== -1) ? projects.data[projectIdx].issues.findIndex(iss => iss.id == routerProps.match.params.issueId) : -1;
-                    const issue = (issueIdx !== -1) ? projects.data[projectIdx].issues[issueIdx] : null; 
-                    return (
-                        <IssueDetails 
-                            {...routerProps} 
-                            issue={issue}
-                            onEdit={handleEditIssue} 
-                        /> 
-                    )
-                }}/>
-                <Route path={`${match.url}/:projectId/issues`} exact render={(routerProps) => {
+                <Route path={`${match.url}/:projectId/issues`} render={(routerProps) => {
                     const projectIdx = projects.data.findIndex(proj => proj.id == routerProps.match.params.projectId);
                     const issues = (projectIdx !== -1) ? projects.data[projectIdx].issues : []; 
+                    console.log("Router", routerProps);
                     return (
                         <IssueDashboard 
                             {...routerProps} 
@@ -181,6 +169,7 @@ function ProjectDashboard({ match }) {
                             onAssign={handleAssignIssue}
                             onStart={handleStartIssue} 
                             onClose={handleCloseIssue}
+                            onEdit={handleEditIssue}
                         />
                     )
                 }}/>
