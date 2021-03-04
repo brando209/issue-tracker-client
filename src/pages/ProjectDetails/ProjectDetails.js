@@ -7,11 +7,11 @@ import withEdit from '../../components/hocs/withEdit/withEdit';
 
 function ProjectDetails(props) {
     const auth = useAuth();
-    const [project, setProject] = useResource(
+    const [project, ] = useResource(
         `http://localhost:3001/api/projects/${props.match.params.projectId}`,
         auth.user ? auth.user.token : null
     );
-    const [collaborators, setCollaborators] = useResource(
+    const [collaborators, ] = useResource(
         `http://localhost:3001/api/projects/${props.match.params.projectId}/collaborators`,
         auth.user ? auth.user.token : null
     );

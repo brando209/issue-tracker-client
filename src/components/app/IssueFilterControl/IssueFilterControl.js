@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dropdown, DropdownButton, ButtonGroup } from 'react-bootstrap';
 import './IssueFilterControl.css';
 

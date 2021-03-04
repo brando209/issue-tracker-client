@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
 
 import useAuth from '../../hooks/useAuth';
 import useResource from '../../hooks/useResource';
@@ -22,7 +21,7 @@ import SelectForm from '../../components/form/SelectForm';
 function ProjectDashboard({ match }) {
     const auth = useAuth();
     const [projects, setProjects] = useResource('http://localhost:3001/api/projects', auth.user ? auth.user.token : null);
-    const [collaborators, setCollaborators] = useResource('http://localhost:3001/api/user/all', auth.user ? auth.user.token : null);
+    const [collaborators, ] = useResource('http://localhost:3001/api/user/all', auth.user ? auth.user.token : null);
     const { show: showDeleteProjectDialogBox, RenderDialogBox: DeleteDialogBox } = useDialogBox(); 
     const { show: showAddCollaboratorDialogBox, RenderDialogBox: AddCollaboratorDialogBox } = useDialogBox(); 
 
@@ -57,7 +56,7 @@ function ProjectDashboard({ match }) {
         const newIssue = await issuesApi.createIssue(projectId, issueDetails, auth.user.token);
         setProjects(prev => {
             const projects = prev.data.slice();
-            const projectIdx = projects.findIndex(proj => proj.id == projectId);
+            const projectIdx = projects.findIndex(proj => proj.id === Number(projectId));
             projects[projectIdx].issues.push(newIssue);
             return { ...prev, data: projects}
         });
@@ -67,8 +66,11 @@ function ProjectDashboard({ match }) {
         await issuesApi.deleteIssue(projectId, issueId, auth.user.token);
         setProjects(prev => {
             const projects = prev.data.slice();
-            const projectIdx = projects.findIndex(proj => proj.id == projectId);
-            const issueIdx = projects[projectIdx] && projects[projectIdx].issues && projects[projectIdx].issues.length > 0 && projects[projectIdx].issues.findIndex(issue => issue.id === issueId);
+            const projectIdx = projects.findIndex(proj => proj.id === Number(projectId));
+            const issueIdx = projects[projectIdx] 
+                && projects[projectIdx].issues 
+                && projects[projectIdx].issues.length > 0 
+                && projects[projectIdx].issues.findIndex(issue => issue.id === Number(issueId));
             projects[projectIdx].issues.splice(issueIdx, 1);
             return { ...prev, data: projects }
         });
@@ -78,8 +80,11 @@ function ProjectDashboard({ match }) {
         const updatedIssue = await issuesApi.updateIssue(projectId, issueId, issueUpdates, auth.user.token);
         setProjects(prev => {
             const projects = prev.data.slice();
-            const projectIdx = projects.findIndex(proj => proj.id == projectId);
-            const issueIdx = projects[projectIdx] && projects[projectIdx].issues && projects[projectIdx].issues.length > 0 && projects[projectIdx].issues.findIndex(issue => issue.id === issueId);
+            const projectIdx = projects.findIndex(proj => proj.id === Number(projectId));
+            const issueIdx = projects[projectIdx] 
+                && projects[projectIdx].issues 
+                && projects[projectIdx].issues.length > 0 
+                && projects[projectIdx].issues.findIndex(issue => issue.id === Number(issueId));
             projects[projectIdx].issues[issueIdx] = updatedIssue;
             return { ...prev, data: projects }
         });
@@ -89,8 +94,11 @@ function ProjectDashboard({ match }) {
         const updatedIssue = await issuesApi.assignIssue(projectId, issueId, collaboratorId, auth.user.token);
         setProjects(prev => {
             const projects = prev.data.slice();
-            const projectIdx = projects.findIndex(proj => proj.id == projectId);
-            const issueIdx = projects[projectIdx] && projects[projectIdx].issues && projects[projectIdx].issues.length > 0 && projects[projectIdx].issues.findIndex(issue => issue.id === issueId);
+            const projectIdx = projects.findIndex(proj => proj.id === Number(projectId));
+            const issueIdx = projects[projectIdx] 
+                && projects[projectIdx].issues 
+                && projects[projectIdx].issues.length > 0 
+                && projects[projectIdx].issues.findIndex(issue => issue.id === Number(issueId));
             projects[projectIdx].issues[issueIdx] = updatedIssue;
             return { ...prev, data: projects }
         });
@@ -100,8 +108,11 @@ function ProjectDashboard({ match }) {
         const updatedIssue = await issuesApi.advanceIssue(projectId, issueId, "inprogress", auth.user.token);
         setProjects(prev => {
             const projects = prev.data.slice();
-            const projectIdx = projects.findIndex(proj => proj.id == projectId);
-            const issueIdx = projects[projectIdx] && projects[projectIdx].issues && projects[projectIdx].issues.length > 0 && projects[projectIdx].issues.findIndex(issue => issue.id === issueId);
+            const projectIdx = projects.findIndex(proj => proj.id === Number(projectId));
+            const issueIdx = projects[projectIdx] 
+                && projects[projectIdx].issues 
+                && projects[projectIdx].issues.length > 0 
+                && projects[projectIdx].issues.findIndex(issue => issue.id === Number(issueId));
             projects[projectIdx].issues[issueIdx] = updatedIssue;
             return { ...prev, data: projects }
         });
@@ -111,8 +122,11 @@ function ProjectDashboard({ match }) {
         const updatedIssue = await issuesApi.advanceIssue(projectId, issueId, status, auth.user.token);
         setProjects(prev => {
             const projects = prev.data.slice();
-            const projectIdx = projects.findIndex(proj => proj.id == projectId);
-            const issueIdx = projects[projectIdx] && projects[projectIdx].issues && projects[projectIdx].issues.length > 0 && projects[projectIdx].issues.findIndex(issue => issue.id === issueId);
+            const projectIdx = projects.findIndex(proj => proj.id === Number(projectId));
+            const issueIdx = projects[projectIdx] 
+                && projects[projectIdx].issues 
+                && projects[projectIdx].issues.length > 0 
+                && projects[projectIdx].issues.findIndex(issue => issue.id === Number(issueId));
             projects[projectIdx].issues[issueIdx] = updatedIssue;
             return { ...prev, data: projects }
         });
@@ -158,9 +172,8 @@ function ProjectDashboard({ match }) {
                     <NewIssuePage {...routerProps} onSubmit={handleCreateIssue}/>
                 }/>
                 <Route path={`${match.url}/:projectId/issues`} render={(routerProps) => {
-                    const projectIdx = projects.data.findIndex(proj => proj.id == routerProps.match.params.projectId);
+                    const projectIdx = projects.data.findIndex(proj => proj.id === Number(routerProps.match.params.projectId));
                     const issues = (projectIdx !== -1) ? projects.data[projectIdx].issues : []; 
-                    console.log("Router", routerProps);
                     return (
                         <IssueDashboard 
                             {...routerProps} 

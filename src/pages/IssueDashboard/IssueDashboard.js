@@ -40,7 +40,7 @@ const initialFilterValue = {
 
 function IssueDashboard({ issues, ...props }) {
     const auth = useAuth();
-    const [collaborators, setCollaborators] = useResource(
+    const [collaborators, ] = useResource(
         `http://localhost:3001/api/projects/${props.match.params.projectId}/collaborators`,
         auth.user ? auth.user.token : null
     );
@@ -145,7 +145,7 @@ function IssueDashboard({ issues, ...props }) {
                     </>
                 )}/>
                 <Route path={`${props.match.path}/:issueId`} exact render={(routerProps) => {
-                    const issueIdx = issues.findIndex(iss => iss.id == routerProps.match.params.issueId);
+                    const issueIdx = issues.findIndex(iss => iss.id === Number(routerProps.match.params.issueId));
                     const issue = (issueIdx !== -1) ? issues[issueIdx] : null; 
                     return (
                         <IssueDetails 
