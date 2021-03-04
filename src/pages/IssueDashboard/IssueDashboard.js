@@ -152,6 +152,7 @@ function IssueDashboard({ issues, ...props }) {
                             {...routerProps} 
                             issue={issue}
                             onEdit={props.onEdit}
+                            onStart={showStartIssueDialogBox}
                             onClose={showCloseIssueDialogBox}
                         /> 
                     )

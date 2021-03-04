@@ -70,7 +70,8 @@ function IssueDetails({ issue, onEdit, ...props }) {
         issue.status;
 
     const handleAdvanceIssue = () => {
-        props.onClose({ projectId: props.match.params.projectId, issueId: issue.id });
+        if(issue.status === "open") return props.onStart({ projectId: props.match.params.projectId, issueId: issue.id });
+        return props.onClose({ projectId: props.match.params.projectId, issueId: issue.id });
     }
 
     return (
