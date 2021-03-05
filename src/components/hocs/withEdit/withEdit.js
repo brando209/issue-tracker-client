@@ -82,7 +82,6 @@ const withEdit = (WrappedComponent, type) => (
             return null;
         }
 
-        console.log(props);
         return editing ? (
             <Col xs={props.xs} sm={props.sm} md={props.md} lg={props.lg}>
                 <form onBlur={handleBlur} onSubmit={handleSubmit}>
