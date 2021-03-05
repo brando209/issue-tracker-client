@@ -15,16 +15,19 @@ export default function ProvideAuth(props) {
 
 function useProvideAuth() {
     const [user, setUser] = useState(null);
-
+    const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         const loginWithToken = async () => {
             await authApi.tokenLogin((user) => {
                 user ? console.log("Logged in as " + user.userName) : console.log("Not logged in");
                 setUser(user);
+                setIsLoading(false);
             });
         }
-        console.log("Logging in with token")
+        console.log("Logging in with token");
+        setIsLoading(true);
         loginWithToken();
+
     }, []);
 
     const signup = (userInfo, cb) => {
@@ -35,9 +38,12 @@ function useProvideAuth() {
     }
 
     const login = (credentials, cb) => {
+        console.log("logging in");
+        setIsLoading(true);
         return authApi.login(credentials, (user) => {
             setUser(user);
             cb(user);
+            setIsLoading(false);
         })
     }
 
@@ -50,6 +56,7 @@ function useProvideAuth() {
 
     return {
         user,
+        isLoading,
         signup,
         login, 
         logout

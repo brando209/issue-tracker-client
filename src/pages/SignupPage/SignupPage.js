@@ -19,11 +19,13 @@ function SignupPage() {
     }
 
     return (
-        redirect === true ?
-        <Redirect to="/" /> :
-        <Container fluid className="page">
-            <SignupForm onSubmit={signup} />
-        </Container>
+        auth.isLoading ? 
+            <div>Loading...</div> :
+            (auth.user || redirect) ?
+                <Redirect to="/" /> :
+                <Container fluid className="page">
+                    <SignupForm onSubmit={signup} />
+                </Container>
     )
 }
 
