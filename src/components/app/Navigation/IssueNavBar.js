@@ -6,7 +6,7 @@ import NavBar from '../../display/NavBar/NavBar';
 
 function IssueNavBar({ render }) {
     return (
-        <NavBar title="Issues" bg="light" render={() => (
+        <NavBar title="Issues" bg="light" expand="lg" render={() => (
             <Nav>
                 {render()}
                 <LinkButton to="issues/new" variant="outline-dark">Add New Issue</LinkButton>

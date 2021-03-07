@@ -120,8 +120,12 @@ function IssueDashboard({ issues, ...props }) {
                     <>
                         <IssueNavBar render={() => (
                             <>
-                                <InlineSearch onSubmit={(searchText) => { changeListParams("search", searchText) }}/>
+                                <InlineSearch 
+                                    className="search-bar"
+                                    onSubmit={(searchText) => { changeListParams("search", searchText) }}
+                                />
                                 <IssueFilterControl 
+                                    className="filter-controls"
                                     filters={listParams.filter}
                                     onSelect={changeListParams}
                                 />
