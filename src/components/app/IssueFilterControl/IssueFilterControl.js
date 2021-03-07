@@ -33,7 +33,7 @@ function IssueFilterControl(props) {
     const handleChange = () => {}
 
     return (
-        <ButtonGroup>
+        <ButtonGroup className={props.className}>
             <DropdownButton className="m-1" variant="outline-primary" title="Group by" onSelect={handleSelectGroup}>
                 <Dropdown.Item eventKey="none">None</Dropdown.Item>
                 <Dropdown.Item eventKey="category">Category</Dropdown.Item>

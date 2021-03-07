@@ -8,7 +8,7 @@ function InlineSearch(props) {
     }
 
     return (
-        <Form inline noValidate onSubmit={handleSubmit}>
+        <Form inline noValidate onSubmit={handleSubmit} className={props.className}>
             <FormControl type="text" name="search" placeholder="Search" className="mr-sm-2" />
             <Button type="submit" variant="outline-info">Search</Button>
         </Form>
