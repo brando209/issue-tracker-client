@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 
 import useAuth from '../../hooks/useAuth';
@@ -151,7 +151,7 @@ function IssueDashboard({ issues, ...props }) {
                 <Route path={`${props.match.path}/:issueId`} exact render={(routerProps) => {
                     const issueIdx = issues.findIndex(iss => iss.id === Number(routerProps.match.params.issueId));
                     const issue = (issueIdx !== -1) ? issues[issueIdx] : null; 
-                    return (
+                    return (issue) ? (
                         <IssueDetails 
                             {...routerProps} 
                             issue={issue}
@@ -159,6 +159,8 @@ function IssueDashboard({ issues, ...props }) {
                             onStart={showStartIssueDialogBox}
                             onClose={showCloseIssueDialogBox}
                         /> 
+                    ) : (
+                        <Redirect to={props.match.url} />
                     )
                 }}/>
             </Switch>
