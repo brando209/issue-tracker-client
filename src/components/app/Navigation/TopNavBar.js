@@ -19,11 +19,11 @@ function TopNavBar(props) {
     return (
         <NavBar title="Issue Tracker" logo={logo} bg="dark" expand="md" render={() => (
             <Nav >
-                { !auth.user ? <LinkButton to="login">Login</LinkButton> : null }
-                { !auth.user ? <LinkButton to="signup">Signup</LinkButton> : null }
-                { auth.user ? <LinkButton to="/dashboard">Dashboard</LinkButton> : null }
-                { auth.user ? <LinkButton to="/account">Account</LinkButton> : null }
-                { auth.user ? <LinkButton onClick={logout}>Logout</LinkButton> : null }
+                { !auth.user ? <LinkButton className="m-sm-1" to="login">Login</LinkButton> : null }
+                { !auth.user ? <LinkButton className="m-sm-1" to="signup">Signup</LinkButton> : null }
+                { auth.user ? <LinkButton className="m-sm-1" to="/dashboard">Dashboard</LinkButton> : null }
+                { auth.user ? <LinkButton className="m-sm-1" to="/account">Account</LinkButton> : null }
+                { auth.user ? <LinkButton className="m-sm-1" onClick={logout}>Logout</LinkButton> : null }
             </Nav>
         )} />
     )

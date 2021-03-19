@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function LinkButton({ to, text, ...props }) {
     return (
-        <Button as={Link} to={to ? to : "#"} variant="outline-primary" className="m-sm-1" {...props}>
+        <Button as={Link} to={to ? to : "#"} variant="outline-primary" {...props}>
             {text || props.children}
         </Button>
     );

@@ -8,7 +8,7 @@ function ProjectsNavBar() {
     return (
         <NavBar title="Projects" bg="light" render={() => (
             <Nav>
-                <LinkButton to="/projects/new">Add New Project</LinkButton>
+                <LinkButton to="/projects/new" className="m-sm-1">Add New Project</LinkButton>
             </Nav>
         )}/>
     )
