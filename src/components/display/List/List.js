@@ -1,39 +1,16 @@
 import React from 'react';
-import { groupBy, mapValues, pickBy, includes } from 'lodash';
 
 import ListItem from './ListItem'
 import ListItemGroup from './ListItemGroup';
 import './List.css';
+import { useFilteredItems } from '../../../hooks/useFilteredItems';
+import { useGroupedItems } from '../../../hooks/useGroupedItems';
+
 
 function List({ listItems, groupKey = null, groupValues = null, orderBy = 'asc', filter = null, searchText = "", searchKeys = [], render }) {
-    // Maps property keys of 'filter' prop to an array containing the values that are not being filtered out
-    const allowedValues = mapValues(filter, (obj) => {
-        const selectedFilters = pickBy(obj, (value) => value === true);
-        return Object.keys(selectedFilters);
-    });
-    
-    const filteredItems = listItems && listItems.length > 0 && listItems.filter(item => {
-        const allowedKeys = Object.keys(allowedValues);
-        let isAllowed = true;
-        // Filter out items based on the current filter
-        for(let key of allowedKeys) {
-            if(includes(allowedValues[key], item[key]) === false) {
-                isAllowed = false;
-            }
-        }
-        // Also, filter out items not matching the current search (item['searchKeys'] !== 'searchText')
-        if(isAllowed && searchText !== "") {
-            for(let key of searchKeys) {
-                if(includes(item[key].toLowerCase(), searchText.toLowerCase()) === true) {
-                    isAllowed = true;
-                    break;
-                } else isAllowed = false;
-            }
-        }
-        return isAllowed;
-    });
 
-    const groupedItems = groupBy(filteredItems, (value) => value[groupKey]);
+    const filteredItems = useFilteredItems(listItems, filter, searchText, searchKeys);
+    const groupedItems = useGroupedItems(filteredItems, groupKey);
 
     const listComponents = () => {
         let listComponentArray;
