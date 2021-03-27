@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Dropdown, DropdownButton } from 'react-bootstrap';
 import LinkButton from '../../display/Button/LinkButton';
 
-function ProjectOverview({ project, onDelete, onEdit, onAddCollaborator }) {
+function ProjectListOverviewCard({ project, onDelete, onEdit, onAddCollaborator }) {
     return (
         <Card style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
             <Card.Body style={{ flex: 1 }}>
@@ -30,4 +30,4 @@ function ProjectOverview({ project, onDelete, onEdit, onAddCollaborator }) {
     )
 }
 
-export default ProjectOverview;
+export default ProjectListOverviewCard;

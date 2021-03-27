@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-
 
 import useAuth from '../../hooks/useAuth';
 import useResource from '../../hooks/useResource';
@@ -14,6 +13,7 @@ import useDialogBox from '../../hooks/useDialogBox';
 import useListParams from '../../hooks/useListParams';
 import SelectForm from '../../components/form/SelectForm';
 import InlineSearch from '../../components/form/InlineSearch';
+import ToggleButton from '../../components/display/Button/ToggleButton';
 
 const initialFilterValue = {
     category: {
@@ -49,6 +49,11 @@ function IssueDashboard({ issues, ...props }) {
     const { show: showStartIssueDialogBox, RenderDialogBox: StartIssueDialogBox } = useDialogBox();
     const { show: showCloseIssueDialogBox, RenderDialogBox: CloseIssueDialogBox } = useDialogBox();
     const [listParams, changeListParams] = useListParams({ order: "desc", group: "category", filter: initialFilterValue, search: "" });
+    const [issueView, setIssueView] = useState('1');
+
+    const handleSelectIssueView = (view) => {
+        setIssueView(view);
+    }
 
     const handleDeleteIssue = async ({ data }) => {
         props.onDelete(data.projectId, data.issueId);
@@ -120,6 +125,15 @@ function IssueDashboard({ issues, ...props }) {
                     <>
                         <IssueNavBar render={() => (
                             <>
+                                <div>View style:</div>
+                                <ToggleButton 
+                                    radioValue={issueView} 
+                                    radios={[
+                                        { name: 'List', value: '1' },
+                                        { name: 'Table', value: '2' }
+                                    ]}
+                                    onSelect={handleSelectIssueView}
+                                />
                                 <InlineSearch 
                                     className="search-bar"
                                     onSubmit={(searchText) => { changeListParams("search", searchText) }}
@@ -134,6 +148,7 @@ function IssueDashboard({ issues, ...props }) {
                         <IssueList 
                             projectId={props.match.params.projectId} 
                             issueList={issues}
+                            viewAs={issueView}
 
                             groupBy={listParams.group}
                             orderBy={listParams.order}

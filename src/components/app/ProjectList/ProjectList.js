@@ -1,12 +1,12 @@
 import React from 'react';
 
 import List from '../../display/List/List';
-import ProjectOverview from '../ProjectOverview/ProjectOverview';
+import ProjectListOverviewCard from './ProjectListOverviewCard';
 
 function ProjectList({ projectList, ...props }) {
     return projectList ? 
         <List listItems={projectList} render={item => (
-            <ProjectOverview project={item} {...props} />
+            <ProjectListOverviewCard project={item} {...props} />
         )}/> : 
         "No projects"
 }
