@@ -22,6 +22,6 @@
     text-align: left;
 }
 /* Selector for error message of the form */
-.form > .row > .col:nth-child(2){
+.form .form-error {
     color: red;
 }
