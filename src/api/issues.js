@@ -103,8 +103,50 @@ async function deleteComment(projectId, issueId, commentId, authToken) {
     }
 }
 
+// This function returns a promise instead of waiting for it to resolve. 
+async function createAttachment(projectId, issueId, data, authToken) {
+    try {
+        const headers = authHeader(authToken);
+        return axios.post(
+            `http://localhost:3001/api/projects/${projectId}/issues/${issueId}/attachments`,
+            data,
+            { headers }
+        )
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+async function getAttachment(projectId, issueId, attachmentId, authToken) {
+    try {
+        const headers = authHeader(authToken);
+        return axios.get(
+            `http://localhost:3001/api/projects/${projectId}/issues/${issueId}/attachments/${attachmentId}`,
+            { headers }            
+        );
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+async function deleteAttachment(projectId, issueId, attachmentId, authToken) {
+    try {
+        const headers = authHeader(authToken);
+        const result = axios.delete(
+            `http://localhost:3001/api/projects/${projectId}/issues/${issueId}/attachments/${attachmentId}`,
+            { headers }
+        )
+        console.log(result);
+        return result;
+    } catch(err) {
+        console.log(err);
+    }
+}
+
 const issuesApi = {
-    createIssue, updateIssue, deleteIssue, assignIssue, advanceIssue, addComment, updateComment, deleteComment
+    createIssue, updateIssue, deleteIssue, assignIssue, advanceIssue, 
+    addComment, updateComment, deleteComment, 
+    createAttachment, getAttachment, deleteAttachment
 }
 
 export default issuesApi;
