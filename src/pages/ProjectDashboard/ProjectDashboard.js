@@ -60,6 +60,7 @@ function ProjectDashboard({ match }) {
             projects[projectIdx].issues.push(newIssue);
             return { ...prev, data: projects}
         });
+        return newIssue;
     }
 
     const handleDeleteIssue = async (projectId, issueId) => {
@@ -132,6 +133,10 @@ function ProjectDashboard({ match }) {
         });
     }
 
+    const handleCreateIssueAttachment = async (projectId, issueId, data) => {
+        return issuesApi.createAttachment(projectId, issueId, data, auth.user.token);
+    }
+
     return (
         <>
             <DeleteDialogBox
@@ -169,7 +174,7 @@ function ProjectDashboard({ match }) {
                     </>
                 )}/>
                 <Route path={`${match.url}/:projectId/issues/new`} exact render={(routerProps) => 
-                    <NewIssuePage {...routerProps} onSubmit={handleCreateIssue}/>
+                    <NewIssuePage {...routerProps} onSubmit={handleCreateIssue} onAddAttachment={handleCreateIssueAttachment} />
                 }/>
                 <Route path={`${match.url}/:projectId/issues`} render={(routerProps) => {
                     const projectIdx = projects.data.findIndex(proj => proj.id === Number(routerProps.match.params.projectId));

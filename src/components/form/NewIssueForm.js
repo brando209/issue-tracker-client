@@ -1,31 +1,30 @@
 import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Row, Col, Button } from 'react-bootstrap';
+
+import Upload from './inputs/Upload/Upload';
 import { IssueSchema } from '../../utility/schema/validation';
 
-function NewIssueForm({ onSubmit, collaborators }) {
+function NewIssueForm({ onSubmit, onRequest, collaborators }) {
     return (
         <Formik
             initialValues={{ title: "", description: "", category: "other", priority: "regular", status: "unassigned", assigneeId: "" }}
             validationSchema={IssueSchema}
             onSubmit={async (values, { setSubmitting }) => {
-                console.log("Submitting")
                 setSubmitting(true);
                 try {
                     const newIssue = values;
 
-                    if(newIssue.assigneeId === "") delete newIssue.assigneeId;
-                    else newIssue.status = "open";
-
                     await onSubmit(newIssue);
+
                 } catch (err) {
                     console.log(err);
                 }
                 setSubmitting(false);
             }}
         >
-            {({ isSubmitting }) => (
-                <Form className="form">
+            {({ isSubmitting, setFieldValue }) => (
+                <Form className="form" id="new-issue-form">
                     <Row as="h3">Add New Issue</Row>
 
                     <Row>
@@ -34,7 +33,9 @@ function NewIssueForm({ onSubmit, collaborators }) {
                         </Col>
                         <Col>
                             <Field name="title" type="text" className="form-input" />
-                            <ErrorMessage name="title" className="form-error" />
+                            <span className="form-error">
+                                <ErrorMessage name="title" />
+                            </span>
                         </Col>
                     </Row>
 
@@ -44,7 +45,9 @@ function NewIssueForm({ onSubmit, collaborators }) {
                         </Col>
                         <Col>
                             <Field name="description" as="textarea" className="form-input" />
-                            <ErrorMessage name="description" className="form-error" />
+                            <span className="form-error">
+                                <ErrorMessage name="description" className="form-error" />
+                            </span>
                         </Col>
                     </Row>
 
@@ -59,7 +62,9 @@ function NewIssueForm({ onSubmit, collaborators }) {
                                 <option value="task">Task</option>
                                 <option value="other">Uncategorized</option>
                             </Field>
-                            <ErrorMessage name="category" className="form-error" />
+                            <span className="form-error">
+                                <ErrorMessage name="category" className="form-error" />
+                            </span>
                         </Col>
                     </Row>
 
@@ -75,7 +80,24 @@ function NewIssueForm({ onSubmit, collaborators }) {
                                 <option value="high">High</option>
                                 <option value="critical">Critical</option>
                             </Field>
-                            <ErrorMessage name="priority" className="form-error" />
+                            <span className="form-error">
+                                <ErrorMessage name="priority" className="form-error" />
+                            </span>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col>
+                            <label htmlFor="attachments">Attachments</label>
+                        </Col>
+                        <Col>
+                            <Field 
+                                name="attachments"
+                                as={Upload} 
+                                sendRequest={onRequest} 
+                                onChange={val => setFieldValue('attachments', val)}
+                                className="form-input" 
+                            />
                         </Col>
                     </Row>
 
@@ -87,10 +109,12 @@ function NewIssueForm({ onSubmit, collaborators }) {
                             <Field name="assigneeId" as="select" className="form-input" >
                                 <option value="">Unassigned</option>
                                 {
-                                    collaborators.map(user => <option value={user.id}>{user.userName}</option>)
+                                    collaborators.map(user => <option key={user.id} value={user.id}>{user.userName}</option>)
                                 }
                             </Field>
-                            <ErrorMessage name="assign" className="form-error" />
+                            <span className="form-error">
+                                <ErrorMessage name="assign" className="form-error" />
+                            </span>
                         </Col>
                     </Row>
 

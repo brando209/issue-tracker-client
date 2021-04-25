@@ -14,16 +14,37 @@ function NewIssuePage(props) {
     );
     const [redirect, setRedirect] = useState(false);
 
+    const addIssueAttachment = async (issueId, attachmentData) => {
+        return props.onAddAttachment(props.match.params.projectId, issueId, attachmentData);
+    }
+
     const addNewIssue = async (newIssue) => {
-        await props.onSubmit(props.match.params.projectId, newIssue);
+        if(newIssue.assigneeId === "") delete newIssue.assigneeId;
+        else newIssue.status = "open";
+
+        const attachments = newIssue.attachments;
+        delete newIssue.attachments;
+
+        const issue = await props.onSubmit(props.match.params.projectId, newIssue);
+
+        const promises = [];
+        attachments && attachments.forEach(file => {
+            const data = new FormData();
+            data.append('attachments', file);
+            promises.push(addIssueAttachment(issue.id, data));
+        })
+        await Promise.all(promises);
+
         setRedirect(true);
+
+        return issue;
     }
 
     return (
         redirect === true ? 
             <Redirect to={`/projects/${props.match.params.projectId}/issues`} /> :
             <Container fluid className="page">
-                <NewIssueForm onSubmit={addNewIssue} collaborators={collaborators.data}/>
+                <NewIssueForm onSubmit={addNewIssue} onRequest={addIssueAttachment} collaborators={collaborators.data}/>
             </Container>
     )
 }
