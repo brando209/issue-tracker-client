@@ -133,8 +133,21 @@ function ProjectDashboard({ match }) {
         });
     }
 
-    const handleCreateIssueAttachment = async (projectId, issueId, data) => {
+    const handleIssueAttachmentRequest = async (projectId, issueId, data) => {
         return issuesApi.createAttachment(projectId, issueId, data, auth.user.token);
+    }
+
+    const addIssueAttachmentHandles = (projectId, issueId, attachmentHandles) => {
+        setProjects(prev => {
+            const projects = prev.data.slice();
+            const projectIdx = projects.findIndex(proj => proj.id === Number(projectId));
+            const issueIdx = projects[projectIdx] 
+                && projects[projectIdx].issues 
+                && projects[projectIdx].issues.length > 0 
+                && projects[projectIdx].issues.findIndex(issue => issue.id === Number(issueId));
+            projects[projectIdx].issues[issueIdx].attachmentHandles = attachmentHandles;
+            return { ...prev, data: projects }
+        });
     }
 
     return (
@@ -174,7 +187,12 @@ function ProjectDashboard({ match }) {
                     </>
                 )}/>
                 <Route path={`${match.url}/:projectId/issues/new`} exact render={(routerProps) => 
-                    <NewIssuePage {...routerProps} onSubmit={handleCreateIssue} onAddAttachment={handleCreateIssueAttachment} />
+                    <NewIssuePage 
+                        {...routerProps} 
+                        onSubmit={handleCreateIssue} 
+                        onCreateAttachmentRequest={handleIssueAttachmentRequest}
+                        onAddAttachment={addIssueAttachmentHandles}
+                    />
                 }/>
                 <Route path={`${match.url}/:projectId/issues`} render={(routerProps) => {
                     const projectIdx = projects.data.findIndex(proj => proj.id === Number(routerProps.match.params.projectId));

@@ -15,7 +15,7 @@ function NewIssuePage(props) {
     const [redirect, setRedirect] = useState(false);
 
     const addIssueAttachment = async (issueId, attachmentData) => {
-        return props.onAddAttachment(props.match.params.projectId, issueId, attachmentData);
+        return props.onCreateAttachmentRequest(props.match.params.projectId, issueId, attachmentData);
     }
 
     const addNewIssue = async (newIssue) => {
@@ -28,12 +28,17 @@ function NewIssuePage(props) {
         const issue = await props.onSubmit(props.match.params.projectId, newIssue);
 
         const promises = [];
+
         attachments && attachments.forEach(file => {
             const data = new FormData();
             data.append('attachments', file);
             promises.push(addIssueAttachment(issue.id, data));
         })
-        await Promise.all(promises);
+
+        const attachmentHandles = await Promise.all(promises)
+            .then(responses => responses.map(response => response.data.id));
+
+        props.onAddAttachment(props.match.params.projectId, issue.id, attachmentHandles);
 
         setRedirect(true);
 
