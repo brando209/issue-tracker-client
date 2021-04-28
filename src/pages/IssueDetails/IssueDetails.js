@@ -8,9 +8,15 @@ import withEdit from '../../components/hocs/withEdit/withEdit';
 import issuesApi from '../../api/issues';
 
 import './IssueDetails.css';
+import Attachments from '../../components/app/Attachments/Attachments';
 
 function IssueDetails({ issue, onEdit, ...props }) {
     const auth = useAuth();
+    const [attachments, setAttachments] = useResource(
+        `http://localhost:3001/api/projects/${props.match.params.projectId}/issues/${props.match.params.issueId}/attachments`,
+        auth.user ? auth.user.token : null,
+        issue.attachmentHandles
+    )
     const [comments, setComments] = useResource(
         `http://localhost:3001/api/projects/${props.match.params.projectId}/issues/${props.match.params.issueId}/comments`,
         auth.user ? auth.user.token : null
@@ -171,6 +177,13 @@ function IssueDetails({ issue, onEdit, ...props }) {
             <Row>
                 <Col lg={4} md={4} sm={4} xs={4}>Resolved/Closed on</Col>
                 <Col as="p" lg={6} md={6} sm={6} xs={6}>{(issue.closed_at) ? issue.closed_at : "N/A"}</Col>
+            </Row>
+
+            <Row>
+                <Col lg={4} md={4} sm={4} xs={4}>Attachments</Col>
+                <Col lg={6} md={6} sm={6} xs={6} id="attachments-content">
+                    <Attachments attachments={attachments.data}/>
+                </Col>
             </Row>
 
             <Row>
