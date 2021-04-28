@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function useResource(path, authToken, forkedPaths = []) {
+function useResource(path, authToken, forkedPaths = null) {
     const [resource, setResource] = useState({
         data: [],
         isLoading: false,
@@ -16,14 +16,22 @@ function useResource(path, authToken, forkedPaths = []) {
             try {
                 const headers = authToken ? { 'Authorization': `Bearer ${authToken}` } : {}
                 let response;
-                if(forkedPaths.length > 0) {
+                if(forkedPaths) {
+                    if(forkedPaths.length === 0) return setResource({ data: [], isLoading: false, isError: false });
+                    
                     const promises = [];
                     forkedPaths.forEach(fork => {
                         promises.push(axios.get(path + "/" + fork, { headers }));
                     });
+
                     response = await Promise.all(promises);
-                    response = response.map(obj => obj.data);
-                    setResource({ data: response, isLoading: false, isError: false });
+
+                    const responseData = response.map(res => ({
+                        filename: res.headers['content-filename'],
+                        data: res.data
+                    }));
+
+                    setResource({ data: responseData, isLoading: false, isError: false });
                 } else {
                     response = await axios.get(path, { headers });
                     setResource({ data: response.data, isLoading: false, isError: false });
