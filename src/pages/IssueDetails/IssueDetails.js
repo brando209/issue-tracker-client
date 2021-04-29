@@ -76,6 +76,7 @@ function IssueDetails({ issue, onEdit, ...props }) {
         issue.status;
 
     const handleAdvanceIssue = () => {
+        if(issue.status === "unassigned") return props.onAssign({ projectId: props.match.params.projectId, issueId: issue.id });
         if(issue.status === "open") return props.onStart({ projectId: props.match.params.projectId, issueId: issue.id });
         return props.onClose({ projectId: props.match.params.projectId, issueId: issue.id });
     }
