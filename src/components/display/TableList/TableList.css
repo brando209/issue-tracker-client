@@ -13,5 +13,4 @@
 
 .table-body > tr > :last-child {
     width: 10vw;
-    overflow: hidden;
 }

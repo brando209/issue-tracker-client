@@ -9,7 +9,6 @@
 .list-container .list-item {
     margin: 1vh 0 2vh 0;
     border: 1px solid black;
-    min-height: 10vh;
 }
 
 .list-container .list-item-group {
@@ -20,7 +19,6 @@
 .list-container .list-item-group .list-item {
     margin: 0;
     border: 1px solid black;
-    min-height: 10vh;
 }
 
 .list-container .list-item-group > .group-header {

@@ -2,6 +2,7 @@ import React from 'react';
 
 import List from '../../display/List/List';
 import ProjectListOverviewCard from './ProjectListOverviewCard';
+import './ProjectList.css';
 
 function ProjectList({ projectList, ...props }) {
     return projectList ? 
