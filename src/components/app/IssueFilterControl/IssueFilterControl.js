@@ -19,18 +19,53 @@ function IssueFilterControl(props) {
         props.onSelect("filter", filters);
     }
 
-    const clearFilters = () => {
+    const setAllFiltersTo = (key, newValue) => {
         const filterKeys = Object.keys(props.filters);
         const filters = { ...props.filters };
-        filterKeys.forEach(filterKey => {
-            Object.keys(props.filters[filterKey]).forEach(value => {
-                filters[filterKey][value] = false;
+        if(key === "") {
+            filterKeys.forEach(filterKey => {
+                Object.keys(props.filters[filterKey]).forEach(value => {
+                    filters[filterKey][value] = newValue;
+                });
             });
-        });
+        } else {
+            Object.keys(props.filters[key]).forEach(value => {
+                filters[key][value] = newValue;
+            });
+        }
         props.onSelect("filter", filters);
     }
+
+    const checkAllFilters = (key = "") => { setAllFiltersTo(key, true); }
+    const uncheckAllFilters = (key = "") => { setAllFiltersTo(key, false); }
+
+    const isCleared = (key = "") => {
+        const filters = { ...props.filters };
+        let cleared = true;
+        if(key === "") {
+            const filterKeys = Object.keys(props.filters);
+            filterKeys.forEach(filterKey => {
+                Object.keys(props.filters[filterKey]).forEach(value => {
+                    if(filters[filterKey][value] === true) cleared = false;
+                });
+            });
+        } else {
+            Object.keys(props.filters[key]).forEach(value => {
+                if(filters[key][value] === true) cleared = false;
+            });
+        }
+        return cleared;
+    }
+
+    const handleToggleAll = () => {
+        isCleared() ? checkAllFilters() : uncheckAllFilters()
+    }
+
+    const handleToggleFilterKey = (key) => {
+        isCleared(key) ? checkAllFilters(key) : uncheckAllFilters(key)
+    }
     
-    const handleChange = () => {}
+    const handleChange = (e) => { console.log(e) }
 
     return (
         <ButtonGroup className={props.className}>
@@ -40,10 +75,12 @@ function IssueFilterControl(props) {
                 <Dropdown.Item eventKey="status">Status</Dropdown.Item>
                 <Dropdown.Item eventKey="priority">Priority</Dropdown.Item>
             </DropdownButton>
+
             <DropdownButton className="m-1" variant="outline-primary" title="Order" onSelect={handleSelectOrder}>
                 <Dropdown.Item eventKey="asc">Ascending</Dropdown.Item>
                 <Dropdown.Item eventKey="desc">Desccending</Dropdown.Item>
             </DropdownButton>
+
             <DropdownButton className="filterDropdown m-1" variant="outline-primary" title="Filter" menuAlign="right" onSelect={handleSelectFilter}>
                 <div className="filters">
                     <div className="dropdown-item-group">
@@ -64,7 +101,9 @@ function IssueFilterControl(props) {
                             <input type="checkbox" name="other" id="checkbox-other" checked={props.filters.category.other} onChange={handleChange}/>
                             <label htmlFor="checkbox-other">Other</label>
                         </Dropdown.Item>
+                        <Dropdown.ItemText onClick={() => { handleToggleFilterKey("category") }}>{isCleared() ? "All" : "Clear"}</Dropdown.ItemText>
                     </div>
+                    
                     <div className="dropdown-item-group">
                         <Dropdown.Header>Priority</Dropdown.Header>
                         <Dropdown.Item eventKey="priority critical">
@@ -87,6 +126,7 @@ function IssueFilterControl(props) {
                             <input type="checkbox" name="trivial" id="checkbox-trivial" checked={props.filters.priority.trivial} onChange={handleChange}/>
                             <label htmlFor="checkbox-trivial">Trivial</label>
                         </Dropdown.Item>
+                        <Dropdown.ItemText onClick={() => { handleToggleFilterKey("priority") }}>{isCleared() ? "All" : "Clear"}</Dropdown.ItemText>
                     </div>
 
                     <div className="dropdown-item-group">
@@ -111,8 +151,9 @@ function IssueFilterControl(props) {
                             <input type="checkbox" name="closed" id="checkbox-closed" checked={props.filters.status.closed} onChange={handleChange}/>
                             <label htmlFor="checkbox-closed">Closed</label>
                         </Dropdown.Item>
+                        <Dropdown.ItemText onClick={() => { handleToggleFilterKey("status") }}>{isCleared() ? "All" : "Clear"}</Dropdown.ItemText>
                     </div>
-                    <Dropdown.ItemText onClick={clearFilters}>Clear</Dropdown.ItemText>
+                    <Dropdown.ItemText onClick={handleToggleAll}>{isCleared() ? "Check All" : "Clear All"}</Dropdown.ItemText>
                 </div>
             </DropdownButton>
         </ButtonGroup>
