@@ -40,7 +40,9 @@ function IssueDetails({ issue, onEdit, ...props }) {
             const comments = prev.data.slice();
             comments.push(newComment);
             return { ...prev, data: comments }
-        })
+        });
+        const commentBox = document.querySelector("textarea#comment");
+        commentBox.value = "";
     }
 
     const handleDeleteComment = async ({ data }) => {
@@ -120,7 +122,7 @@ function IssueDetails({ issue, onEdit, ...props }) {
                     value={issue.category} 
                     name="category" 
                     onEdit={handleEditIssue} 
-                    options={["bug", "feature", "task"]}
+                    options={["bug", "feature", "task", "other"]}
                 >
                     {issue.category}
                 </EditSelect>
