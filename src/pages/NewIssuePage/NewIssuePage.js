@@ -19,9 +19,6 @@ function NewIssuePage(props) {
     }
 
     const addNewIssue = async (newIssue) => {
-        if(newIssue.assigneeId === "") delete newIssue.assigneeId;
-        else newIssue.status = "open";
-
         const attachments = newIssue.attachments;
         delete newIssue.attachments;
 
