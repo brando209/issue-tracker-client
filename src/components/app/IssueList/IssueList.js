@@ -13,7 +13,7 @@ const groups = {
 }
 
 function IssueList({ projectId, issueList, groupBy, orderBy, filter, searchText, searchKeys, ...props }) {
-    return issueList ?
+    return issueList && issueList.length > 0 ?
         (props.viewAs === '2' ? 
             <TableList 
                 listItems={issueList} 
@@ -36,7 +36,12 @@ function IssueList({ projectId, issueList, groupBy, orderBy, filter, searchText,
                 render={item => <IssueListOverviewCard projectId={projectId} issue={item} {...props} />}
             />
         )
-        : "No Issues"
+        : 
+        <div className="empty-list-message">
+            <span>There are currently no issues to display for this project. </span> 
+            <a href="issues/new">Click here </a> 
+            <span>to create an issue.</span>
+        </div>
 }
 
 export default IssueList;

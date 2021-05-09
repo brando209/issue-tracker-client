@@ -14,6 +14,7 @@
 .list-container .list-item-group {
     display: flex;
     flex-direction: column;
+    margin-bottom: 5px;
 }
 
 .list-container .list-item-group .list-item {
@@ -26,7 +27,17 @@
     padding-left: 1em;
     border: 1px solid black;
     border-bottom: none;
-    min-height: 2.5em;
+    min-height: 2em;
     font-weight: bold;
     background: cornflowerblue;
+}
+
+.list-container .list-item-group > .group-header.collapsed {
+    border-bottom: 1px solid black;
+}
+
+.list-container .list-item-group > .empty-group-message {
+    min-height: 2em;
+    background: white;
+    border: 1px solid black;
 }
