@@ -15,6 +15,7 @@ import SelectForm from '../../components/form/SelectForm';
 import InlineSearch from '../../components/form/InlineSearch';
 import ToggleButton from '../../components/display/Button/ToggleButton';
 import IssueDetailNavBar from '../../components/app/Navigation/IssueDetailNavBar';
+import IssueLog from '../IssueLog/IssueLog';
 
 const initialFilterValue = {
     category: {
@@ -181,8 +182,11 @@ function IssueDashboard({ issues, ...props }) {
                                 onClose={showCloseIssueDialogBox}
                             />
                         </>
-                    )}
-                } />
+                    )
+                }} />
+                <Route path={`${props.match.path}/:issueId/log`} exact render={(routerProps) => {
+                    return <IssueLog collaborators={collaborators.data} {...routerProps} />
+                }} />
             </Switch>
         </>
     )

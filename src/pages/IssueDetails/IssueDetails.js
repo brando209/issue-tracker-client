@@ -9,6 +9,7 @@ import issuesApi from '../../api/issues';
 
 import './IssueDetails.css';
 import Attachments from '../../components/app/Attachments/Attachments';
+import LinkButton from '../../components/display/Button/LinkButton';
 
 function IssueDetails({ issue, onEdit, ...props }) {
     const auth = useAuth();
@@ -188,6 +189,8 @@ function IssueDetails({ issue, onEdit, ...props }) {
                     <Attachments attachments={attachments.data}/>
                 </Col>
             </Row>
+
+            <LinkButton to={`${issue.id}/log`}>View Issue Log</LinkButton>
 
             <Row>
                 <Col lg={4} md={4} sm={4} xs={4}>
