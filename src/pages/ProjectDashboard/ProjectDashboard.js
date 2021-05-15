@@ -212,9 +212,11 @@ function ProjectDashboard({ match }) {
                 <Route path={`${match.url}/new`} exact render={(routerProps) => 
                     <NewProjectPage {...routerProps} onSubmit={handleAddProject} />
                 }/>
-                <Route path={`${match.url}/:projectId/`} exact render={(routerProps) => 
-                    <ProjectDetails {...routerProps} />
-                }/>
+                <Route path={`${match.url}/:projectId/`} exact render={(routerProps) => {
+                    const project = projects.data.find(proj => proj.id === Number(routerProps.match.params.projectId));
+                    if(!project) return;
+                    return <ProjectDetails project={project} {...routerProps} />
+                }}/>
             </Switch>
         </>
     )
