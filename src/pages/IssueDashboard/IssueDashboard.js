@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import useAuth from '../../hooks/useAuth';
 import useResource from '../../hooks/useResource';
@@ -14,6 +14,7 @@ import useListParams from '../../hooks/useListParams';
 import SelectForm from '../../components/form/SelectForm';
 import InlineSearch from '../../components/form/InlineSearch';
 import ToggleButton from '../../components/display/Button/ToggleButton';
+import IssueDetailNavBar from '../../components/app/Navigation/IssueDetailNavBar';
 
 const initialFilterValue = {
     category: {
@@ -166,20 +167,22 @@ function IssueDashboard({ issues, ...props }) {
                 <Route path={`${props.match.path}/:issueId`} exact render={(routerProps) => {
                     const issueIdx = issues.findIndex(iss => iss.id === Number(routerProps.match.params.issueId));
                     const issue = (issueIdx !== -1) ? issues[issueIdx] : null; 
-                    return (issue) ? (
-                        <IssueDetails 
-                            {...routerProps} 
-                            issue={issue}
-                            onEdit={props.onEdit}
-                            onDelete={showDeleteIssueDialogBox}
-                            onAssign={showAssignIssueDialogBox}
-                            onStart={showStartIssueDialogBox}
-                            onClose={showCloseIssueDialogBox}
-                        /> 
-                    ) : (
-                        <Redirect to={props.match.url} />
-                    )
-                }}/>
+                    if(!issue) return;
+                    return (
+                        <>
+                            <IssueDetailNavBar title={issue.title} />
+                            <IssueDetails 
+                                {...routerProps} 
+                                issue={issue}
+                                onEdit={props.onEdit}
+                                onDelete={showDeleteIssueDialogBox}
+                                onAssign={showAssignIssueDialogBox}
+                                onStart={showStartIssueDialogBox}
+                                onClose={showCloseIssueDialogBox}
+                            />
+                        </>
+                    )}
+                } />
             </Switch>
         </>
     )
