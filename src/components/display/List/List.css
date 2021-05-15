@@ -1,5 +1,4 @@
 .list-container {
-    background-color: rgb(194, 194, 194);
     padding: 1vh 1vw;
 
     display: flex;
@@ -8,7 +7,6 @@
 
 .list-container .list-item {
     margin: 1vh 0 2vh 0;
-    border: 1px solid black;
 }
 
 .list-container .list-item-group {
