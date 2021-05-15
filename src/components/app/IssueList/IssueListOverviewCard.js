@@ -6,7 +6,6 @@ import IssueListButtonToolbar from './IssueListButtonToolbar';
 function IssueListOverviewCard({ projectId, issue, collaborators, ...props }) {
     const collabInfo = new CollabInfo(collaborators);
     const assignee = issue.assigneeId && collabInfo.get(issue.assigneeId)
-    if(!assignee || !assignee.userName) return null; 
     return (
         <Card style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'row', alignItems: "center" }}>
             <Card.Body style={{ flex: 5 }}>

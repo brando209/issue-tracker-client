@@ -72,9 +72,7 @@ function IssueDashboard({ issues, ...props }) {
     const handleCloseIssue = async ({ data, values }) => {
         props.onClose(data.projectId, data.issueId, values.status);
     }
-
-    console.log(collaborators)
-
+    
     return (
         <>
             <DeleteIssueDialogBox

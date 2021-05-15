@@ -13,7 +13,6 @@ const groups = {
 }
 
 function IssueList({ projectId, issueList, groupBy, orderBy, filter, searchText, searchKeys, ...props }) {
-    console.log(props.collaborators);
     return issueList && issueList.length > 0 ?
         (props.viewAs === '2' ? 
             <TableList 
