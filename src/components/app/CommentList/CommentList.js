@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Row, Col, Dropdown } from 'react-bootstrap';
 import List from '../../display/List/List';
 import withEdit from '../../hocs/withEdit/withEdit';
+import { removeTimezoneFromDateString } from '../../../utility/strings';
 import editIcon from '../../../images/edit-icon-png-small.png';
+
 
 const commentBoxStyle = {
     width: "50vw",
@@ -25,11 +27,12 @@ const CustomToggle = React.forwardRef(({ onClick }, ref) => (
 function CommentList(props) {
     const [editId, setEditId] = useState(null);
 
+    const EditArea = withEdit(Col, 'textarea');
+
     const handleDropdownSelect = (e, id) => {
         if(e === "delete") return props.onDelete({ commentId: id });
         if(e === "edit") return showEditArea(id);
     }
-    const EditArea = withEdit(Col, 'textarea');
 
     const showEditArea = (commentId) => {
         setEditId(commentId);
@@ -43,7 +46,14 @@ function CommentList(props) {
     return (
         <List listItems={props.comments} render={(item) => (
             <Row style={commentBoxStyle} key={item.id}>
-                <Col lg={11} md={11} sm={10} xs={9}>{"Posted By: " + item.creatorId + " at " + item.created_at }</Col>
+                <Col lg={11} md={11} sm={10} xs={9}>
+                {
+                    "Posted By: " + 
+                    props.collabInfo.get(item.creatorId).userName + 
+                    " on " + 
+                    removeTimezoneFromDateString(new Date(item.created_at).toString()) 
+                }
+                </Col>
                 <Col lg={1} md={1} sm={2} xs={3}>
                     <Dropdown onSelect={evt => handleDropdownSelect(evt, item.id)}>
                         <Dropdown.Toggle as={CustomToggle} />

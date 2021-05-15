@@ -73,6 +73,8 @@ function IssueDashboard({ issues, ...props }) {
         props.onClose(data.projectId, data.issueId, values.status);
     }
 
+    console.log(collaborators)
+
     return (
         <>
             <DeleteIssueDialogBox
@@ -149,6 +151,7 @@ function IssueDashboard({ issues, ...props }) {
                         )}/>
                         <IssueList 
                             projectId={props.match.params.projectId} 
+                            collaborators={collaborators.data}
                             issueList={issues}
                             viewAs={issueView}
 
@@ -175,6 +178,7 @@ function IssueDashboard({ issues, ...props }) {
                             <IssueDetails 
                                 {...routerProps} 
                                 issue={issue}
+                                collaborators={collaborators.data}
                                 onEdit={props.onEdit}
                                 onDelete={showDeleteIssueDialogBox}
                                 onAssign={showAssignIssueDialogBox}
