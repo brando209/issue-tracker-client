@@ -4,6 +4,7 @@ export default class CollabInfo {
     }
 
     get(collabId) {
+        if(this.collaborators.length === 0) return;
         return this.collaborators.find(collab => collab.id === collabId);
     }
 }
