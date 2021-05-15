@@ -35,3 +35,27 @@ export const projectLogItemText = (logAction, logCreatedBy, logCollaborator, log
     }
     return text;
 }
+
+export const issueLogItemText = (logAction, logCreatedBy, logCollaborator, logDate) => {
+    let text = "";
+    switch(logAction) {
+        case 'INSERT':
+            text += logCreatedBy.userName;
+            text += " created this issue - ";
+            text += logDate;
+            break;
+        case 'UPDATE':
+            text += logCreatedBy.userName;
+            text += " updated this issue - ";
+            text += logDate;
+            break;
+        case 'DELETE':
+            text += logCreatedBy.userName;
+            text += " deleted this issue - ";
+            text += logDate;
+            break;
+        default:
+            break;
+    }
+    return text;
+}
