@@ -39,7 +39,7 @@ function IssueListOverviewCard({ projectId, issue, collaborators, ...props }) {
             <Card.Body style={{ flex: 1, borderLeft: '1px solid black' }}>
                 <Card.Title>Assigned</Card.Title>
                 <Card.Text>
-                    {issue.assigneeId ? assignee.userName : "None"}
+                    {assignee ? assignee.userName : "None"}
                 </Card.Text>
             </Card.Body>
 
