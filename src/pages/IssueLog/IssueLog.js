@@ -1,0 +1,33 @@
+import React from 'react';
+import { Container } from 'react-bootstrap';
+import { useAuth, useResource } from '../../hooks';
+import List from '../../components/display/List/List';
+import CollabInfo from '../../utility/CollabInfo';
+import { removeTimezoneFromDateString } from '../../utility/strings';
+import { issueLogItemText } from '../../utility/log';
+
+function IssueLog(props) {
+    const auth = useAuth();
+    const [log, ] = useResource(
+        `http://localhost:3001/api/projects/${props.match.params.projectId}/issues/${props.match.params.issueId}/reports`,
+        auth.user ? auth.user.token : null
+    )
+
+    const renderLogItem = (item) => {
+        const date = removeTimezoneFromDateString(new Date(item.createdAt).toString());
+        const collabInfo = new CollabInfo(props.collaborators);
+        const createdBy = collabInfo.get(item.createdBy);
+        const { collaboratorId } = JSON.parse(item.newData);
+        const collaborator = collabInfo.get(collaboratorId);
+        const text = issueLogItemText(item.action, createdBy, collaborator, date)
+        return <div>{text}</div>
+    }
+
+    return (
+        <Container fluid>
+            <List listItems={log.data} render={renderLogItem}/>
+        </Container>
+    )
+}
+
+export default IssueLog;
