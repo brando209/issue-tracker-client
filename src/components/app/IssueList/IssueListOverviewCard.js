@@ -1,11 +1,8 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import CollabInfo from '../../../utility/CollabInfo';
 import IssueListButtonToolbar from './IssueListButtonToolbar';
 
-function IssueListOverviewCard({ projectId, issue, collaborators, ...props }) {
-    const collabInfo = new CollabInfo(collaborators);
-    const assignee = issue.assigneeId && collabInfo.get(issue.assigneeId)
+function IssueListOverviewCard({ projectId, issue, ...props }) {
     return (
         <Card style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'row', alignItems: "center" }}>
             <Card.Body style={{ flex: 5 }}>
@@ -39,7 +36,7 @@ function IssueListOverviewCard({ projectId, issue, collaborators, ...props }) {
             <Card.Body style={{ flex: 1, borderLeft: '1px solid black' }}>
                 <Card.Title>Assigned</Card.Title>
                 <Card.Text>
-                    {assignee ? assignee.userName : "None"}
+                    {issue.assignee ? issue.assignee : "None"}
                 </Card.Text>
             </Card.Body>
 

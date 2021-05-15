@@ -4,7 +4,7 @@ import List from '../../display/List/List';
 import IssueListOverviewCard from './IssueListOverviewCard';
 import IssueListButtonToolbar from './IssueListButtonToolbar';
 
-const issueDisplayParameters = ["title", "category", "priority", "status", "assigneeId"];
+const issueDisplayParameters = ["title", "category", "priority", "status", "assignee"];
 
 const groups = { 
     priority: ['trivial', 'low', 'regular', 'high', 'critical'],

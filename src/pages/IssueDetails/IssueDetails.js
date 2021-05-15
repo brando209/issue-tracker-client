@@ -13,7 +13,7 @@ import LinkButton from '../../components/display/Button/LinkButton';
 import CollabInfo from '../../utility/CollabInfo';
 import { removeTimezoneFromDateString } from '../../utility/strings';
 
-function IssueDetails({ issue, collaborators, onEdit, ...props }) {
+function IssueDetails({ issue, onEdit, ...props }) {
     const auth = useAuth();
     const [attachments, setAttachments] = useResource(
         `http://localhost:3001/api/projects/${props.match.params.projectId}/issues/${props.match.params.issueId}/attachments`,
@@ -29,8 +29,6 @@ function IssueDetails({ issue, collaborators, onEdit, ...props }) {
     const EditBox = withEdit(Col, "text");
     const EditArea = withEdit(Col, "textarea");
     const EditSelect = withEdit(Col, "select");
-
-    const collabInfo = new CollabInfo(collaborators);
 
     const handleEditIssue = async (value) => {
         console.log(value);
@@ -169,12 +167,12 @@ function IssueDetails({ issue, collaborators, onEdit, ...props }) {
 
             <Row>
                 <Col lg={4} md={4} sm={4} xs={4}>Created by</Col>
-                <Col as="p" lg={6} md={6} sm={6} xs={6}>{collabInfo.get(issue.creatorId).userName}</Col>
+                <Col as="p" lg={6} md={6} sm={6} xs={6}>{issue.creator}</Col>
             </Row>
 
             <Row>
                 <Col lg={4} md={4} sm={4} xs={4}>Assigned to</Col>
-                <Col as="p" lg={6} md={6} sm={6} xs={6}>{(issue.assigneeId) ? collabInfo.get(issue.assigneeId).userName : "Unassigned"}</Col>
+                <Col as="p" lg={6} md={6} sm={6} xs={6}>{issue.assignee ? issue.assignee : "Unassigned"}</Col>
             </Row>
 
             <Row>
@@ -213,7 +211,6 @@ function IssueDetails({ issue, collaborators, onEdit, ...props }) {
                 <Col lg={4} md={4} sm={4} xs={4}>Comments</Col>
                 <CommentList 
                     comments={comments.data} 
-                    collabInfo={collabInfo}
                     onEdit={handleEditComment} 
                     onDelete={showDeleteCommentDialogBox}
                 />
