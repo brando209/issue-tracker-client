@@ -28,7 +28,7 @@ const withEdit = (WrappedComponent, type) => (
         }
 
         const handleBlur = () => {
-            setEditing(false)
+            (props.onBlur && props.onBlur()) || setEditing(false);
         }
 
         const handleSubmit = (e) => {
@@ -89,9 +89,11 @@ const withEdit = (WrappedComponent, type) => (
                 </form>
             </Col>
         ) : (
-            <WrappedComponent {...props} onClick={handleClick}>
-                {props.children}
-            </WrappedComponent>
+            <div className="component-wrapper">
+                <WrappedComponent {...props} onClick={handleClick}>
+                    {props.children}
+                </WrappedComponent>
+            </div>
         )
     }
 )

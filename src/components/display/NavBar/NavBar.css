@@ -25,6 +25,11 @@
     color: rgb(38, 38, 38);
 }
 
+.navbar-nav {
+    width: 100%;
+    justify-content: flex-end;
+}
+
 @media (prefers-reduced-motion: no-preference) {
     .NavBar .logo {
         animation: Logo-spin infinite 20s linear;

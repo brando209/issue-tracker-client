@@ -34,6 +34,19 @@ export const LoginSchema = Yup.object().shape({
         .required('Required'),
 });
 
+export const ChangePasswordSchema = Yup.object().shape({
+    currentPassword: Yup.string()
+        .min(6, 'Too Short!')
+        .max(20, 'Too Long!')
+        .required('Required'),
+    newPassword: Yup.string()
+        .min(6, 'Too Short!')
+        .max(20, 'Too Long!')
+        .required('Required'),
+    confirmNewPassword: Yup.string()
+        .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
+})
+
 export const ProjectSchema = Yup.object().shape({
     name: Yup.string()
         .min(3, "Too Short!")

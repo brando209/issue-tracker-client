@@ -55,6 +55,16 @@ const auth = {
         auth.isAuthenticated = false;
         removeLocalAuthToken();
         cb();
+    }, 
+    async changePassword(currentPassword, newPassword, token, cb) {
+        console.log("authApi", { currentPassword, newPassword });
+        const response = await axios.patch(
+            'http://localhost:3001/api/user/changePassword',
+            { currentPassword, newPassword },
+            { headers: { 'Authorization': `Bearer ${token}` } }
+        );
+        console.log(response);
+        return response.data;
     }
 }
 

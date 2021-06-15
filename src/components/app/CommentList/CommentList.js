@@ -49,7 +49,7 @@ function CommentList(props) {
                 <Col lg={11} md={11} sm={10} xs={9}>
                 {
                     "Posted By: " + 
-                    props.collabInfo.get(item.creatorId).userName + 
+                    item.creator + 
                     " on " + 
                     removeTimezoneFromDateString(new Date(item.created_at).toString()) 
                 }
@@ -70,6 +70,7 @@ function CommentList(props) {
                     value={item.body}
                     isEditing={editId === item.id}
                     onEdit={handleEditComment}
+                    onBlur={() => setEditId(null)}
                 >
                     {item.body}
                 </EditArea>

@@ -14,39 +14,43 @@ function NewIssuePage(props) {
     );
     const [redirect, setRedirect] = useState(false);
 
-    const addIssueAttachment = async (issueId, attachmentData) => {
-        return props.onCreateAttachmentRequest(props.match.params.projectId, issueId, attachmentData);
+    const addIssueAttachment = async (issueId, attachmentData, cb) => {
+        console.log("in new issue page")
+        return props.onCreateAttachmentRequest(props.match.params.projectId, issueId, attachmentData, cb);
     }
 
-    const addNewIssue = async (newIssue) => {
+    const addNewIssue = async (newIssue, cb) => {
         const attachments = newIssue.attachments;
         delete newIssue.attachments;
 
+        let callbacks = cb(null);
         const issue = await props.onSubmit(props.match.params.projectId, newIssue);
-
         const promises = [];
-
         attachments && attachments.forEach(file => {
+            callbacks = cb(file);
             const data = new FormData();
             data.append('attachments', file);
-            promises.push(addIssueAttachment(issue.id, data));
+            promises.push(addIssueAttachment(issue.id, data, callbacks.progressCb));
         })
 
         const attachmentHandles = await Promise.all(promises)
-            .then(responses => responses.map(response => response.data.id));
+            .then(responses => responses.map(response => response.data.id))
+            .then(data => {
+                callbacks.successCb();
+                return data;
+            })
+            .catch(err => callbacks.failureCb(err));
 
         props.onAddAttachment(props.match.params.projectId, issue.id, attachmentHandles);
 
         setRedirect(true);
-
-        return issue;
     }
 
     return (
         redirect === true ? 
             <Redirect to={`/projects/${props.match.params.projectId}/issues`} /> :
             <Container fluid className="page">
-                <NewIssueForm onSubmit={addNewIssue} onRequest={addIssueAttachment} collaborators={collaborators.data}/>
+                <NewIssueForm onSubmit={addNewIssue} collaborators={collaborators.data}/>
             </Container>
     )
 }

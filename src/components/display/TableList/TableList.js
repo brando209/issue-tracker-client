@@ -59,7 +59,7 @@ function TableList({
             </MyTable>
         )
     ) : (
-        <MyTable headerKeys={headerKeys} data={listItems} groupName={"All"} >
+        <MyTable headerKeys={headerKeys} data={groupedItems} groupName={"All"} >
             {renderButtons}
         </MyTable>
     )

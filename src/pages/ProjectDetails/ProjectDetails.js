@@ -29,12 +29,15 @@ function ProjectDetails({project, ...props}) {
     }
 
     const renderLogItem = (item) => {
+        if(!item || !props.collaborators || props.collaborators.length === 0) return null;
         const date = removeTimezoneFromDateString(new Date(item.createdAt).toString());
         const collabInfo = new CollabInfo(collaborators.data);
         const createdBy = collabInfo.get(item.createdBy);
-        const { collaboratorId } = JSON.parse(item.newData);
+        const { collaboratorId } = JSON.parse(item.newData || item.oldData);
+        const oldData = JSON.parse(item.oldData);
+        const newData = JSON.parse(item.newData);
         const collaborator = collabInfo.get(collaboratorId);
-        const text = projectLogItemText(item.action, createdBy, collaborator, date)
+        const text = projectLogItemText(item.action, createdBy, collaborator, date, { oldData, newData });
         return <div>{text}</div>
     }
 

@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Row, Col, Button } from 'react-bootstrap';
 
 import Upload from './inputs/Upload/Upload';
 import { IssueSchema } from '../../utility/schema/validation';
 
-function NewIssueForm({ onSubmit, onRequest, collaborators }) {
+function NewIssueForm({ onSubmit, collaborators }) {
+    const [uploadCallbacks, setUploadCallbacks] = useState({
+        progressCb: (percentCompleted) => { console.log(percentCompleted) },
+        successCb: () => { console.log("Successful upload") },
+        failureCb: () => { console.log("Failed upload") }
+    });
+
     return (
         <Formik
             initialValues={{ title: "", description: "", category: "other", priority: "regular", status: "unassigned", assigneeId: "" }}
@@ -15,7 +21,7 @@ function NewIssueForm({ onSubmit, onRequest, collaborators }) {
                 try {
                     const newIssue = values;
 
-                    await onSubmit(newIssue);
+                    await onSubmit(newIssue, uploadCallbacks);
 
                 } catch (err) {
                     console.log(err);
@@ -94,8 +100,8 @@ function NewIssueForm({ onSubmit, onRequest, collaborators }) {
                             <Field 
                                 name="attachments"
                                 as={Upload} 
-                                sendRequest={onRequest} 
                                 onChange={val => setFieldValue('attachments', val)}
+                                setUploadCallbacks={setUploadCallbacks}
                                 className="form-input" 
                             />
                         </Col>

@@ -129,7 +129,7 @@ function IssueDashboard({ issues, ...props }) {
                         <IssueNavBar render={() => (
                             <>
                                 <Button 
-                                    className="mx-1" 
+                                    className="stick-left" 
                                     variant="outline-primary"
                                     onClick={() => { props.history.push('/projects') }}
                                 >
@@ -180,9 +180,6 @@ function IssueDashboard({ issues, ...props }) {
                     if(!issue) return;
                     return (
                         <>
-                            <IssueDetailNavBar title={issue.title} render={() => {
-                                return <Button onClick={() => { props.history.goBack() }}>Back to All Issues</Button>
-                            }}/>
                             <IssueDetails 
                                 {...routerProps} 
                                 issue={issue}
@@ -192,6 +189,8 @@ function IssueDashboard({ issues, ...props }) {
                                 onAssign={showAssignIssueDialogBox}
                                 onStart={showStartIssueDialogBox}
                                 onClose={showCloseIssueDialogBox}
+                                onCreateAttachmentRequest={props.onCreateAttachmentRequest}
+                                onAddAttachment={props.onAddAttachment}
                             />
                         </>
                     )
@@ -199,11 +198,18 @@ function IssueDashboard({ issues, ...props }) {
                 <Route path={`${props.match.path}/:issueId/log`} exact render={(routerProps) => {
                     const issueIdx = issues.findIndex(iss => iss.id === Number(routerProps.match.params.issueId));
                     const issue = (issueIdx !== -1) ? issues[issueIdx] : null; 
+                    const urlParts = routerProps.match.url.split('/');
+                    urlParts.pop(); urlParts.pop(); // Remove last two elements( ':issueId/log' ) from url
                     if(!issue) return;
                     return (
                         <>
-                            <IssueDetailNavBar title={issue.title} render={() => {
-                                return <Button onClick={() => { props.history.goBack() }}>Back to Issue</Button>
+                            <IssueDetailNavBar title={issue.title} linkUrl={urlParts.join("/")} render={() => {
+                                return (
+                                    <Button 
+                                        className="stick-left" 
+                                        onClick={() => { props.history.goBack() }}
+                                    >Back to Issue Details</Button>
+                                )
                             }}/>
                             <IssueLog collaborators={collaborators.data} {...routerProps} />
                         </>

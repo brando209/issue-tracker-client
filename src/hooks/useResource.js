@@ -8,7 +8,10 @@ function useResource(path, authToken, forkedPaths = null) {
         isError: false
     });
 
-    
+    const [refresh, setRefresh] = useState(false);
+
+    const getResource = () => setRefresh(prev => !prev);
+
     useEffect(() => {
 
         const fetchResource = async () => {
@@ -45,9 +48,9 @@ function useResource(path, authToken, forkedPaths = null) {
 
         fetchResource();
 
-    }, [path, authToken]);
+    }, [path, authToken, refresh]);
 
-    return [resource, setResource];
+    return [resource, setResource, getResource];
 }
 
 export default useResource;

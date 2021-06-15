@@ -104,16 +104,25 @@ async function deleteComment(projectId, issueId, commentId, authToken) {
 }
 
 // This function returns a promise instead of waiting for it to resolve. 
-async function createAttachment(projectId, issueId, data, authToken) {
+// The callback is passed the current percentage of the upload
+async function createAttachment(projectId, issueId, data, authToken, cb) {
     try {
         const headers = authHeader(authToken);
+        let config = {
+            onUploadProgress: function(progressEvent) {
+                let percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
+                cb && (typeof cb === "function") && cb(percentCompleted);
+            },
+            headers
+        };
         return axios.post(
             `http://localhost:3001/api/projects/${projectId}/issues/${issueId}/attachments`,
             data,
-            { headers }
+            config
         )
     } catch(err) {
         console.log(err);
+
     }
 }
 

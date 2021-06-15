@@ -54,11 +54,17 @@ function useProvideAuth() {
         });
     }
 
+    const changePassword = (currentPassword, newPassword, cb) => {
+        console.log('Context', currentPassword, newPassword);
+        return authApi.changePassword(currentPassword, newPassword, user.token, cb);
+    }
+
     return {
         user,
         isLoading,
         signup,
         login, 
-        logout
+        logout,
+        changePassword
     }
 }
