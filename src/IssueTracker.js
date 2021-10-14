@@ -12,6 +12,8 @@ import SignupPage from './pages/SignupPage/SignupPage';
 import Dashboard from './pages/Dashboard/Dashboard';
 import ProjectDashboard from './pages/ProjectDashboard/ProjectDashboard';
 import UserAccountPage from './pages/UserAccountPage/UserAccountPage';
+import NotificationBanner from './components/display/NotificationBanner/NotificationBanner';
+import ProvideNotificationBanner from './contexts/NotificationBannerContext';
 
 function IssueTracker() {
 
@@ -19,17 +21,20 @@ function IssueTracker() {
         <BrowserRouter>
             <ProvideAuth>
                 <ProvideProjects>
-                    <TopNavBar />
-                    <Switch>
-                        <Route path="/login" component={LoginPage} />
-                        <Route path="/signup" component={SignupPage} />
-                        <PrivateRoute path="/dashboard" component={Dashboard} />
-                        <PrivateRoute path="/projects" component={ProjectDashboard} />
-                        <PrivateRoute path="/account" component={UserAccountPage} />
-                        <Route path="/">
-                            <div>Home</div>
-                        </Route>
-                    </Switch>
+                    <ProvideNotificationBanner>
+                        <NotificationBanner />
+                        <TopNavBar />
+                        <Switch>
+                            <Route path="/login" component={LoginPage} />
+                            <Route path="/signup" component={SignupPage} />
+                            <PrivateRoute path="/dashboard" component={Dashboard} />
+                            <PrivateRoute path="/projects" component={ProjectDashboard} />
+                            <PrivateRoute path="/account" component={UserAccountPage} />
+                            <Route path="/">
+                                <div>Home</div>
+                            </Route>
+                        </Switch>
+                    </ProvideNotificationBanner>
                 </ProvideProjects>
             </ProvideAuth>
         </BrowserRouter>

@@ -15,10 +15,12 @@ import ProjectDetails from '../../pages/ProjectDetails/ProjectDetails';
 
 import useDialogBox from '../../hooks/useDialogBox';
 import SelectForm from '../../components/form/SelectForm';
+import useNotificationBanner from '../../hooks/useNotificationBanner';
 
 function ProjectDashboard({ match }) {
     const auth = useAuth();
     const projects = useProjects();
+    const notificationBanner = useNotificationBanner();
     const [collaborators, ] = useResource('http://localhost:3001/api/user/all', auth.user ? auth.user.token : null);
     const { show: showDeleteProjectDialogBox, RenderDialogBox: DeleteDialogBox } = useDialogBox(); 
     const { show: showAddCollaboratorDialogBox, RenderDialogBox: AddCollaboratorDialogBox } = useDialogBox(); 
@@ -29,14 +31,20 @@ function ProjectDashboard({ match }) {
                 heading="Delete Project"
                 closeButtonText="Cancel"
                 submitButtonText="Delete"
-                onSubmit={projects.handleDeleteProject}
+                onSubmit={async (project) => {
+                    await projects.handleDeleteProject(project);
+                    notificationBanner.showNotificationWithText("Project Successfully Deleted!");
+                }}
                 render={({ data }) => 'Are you sure you would like to delete project with id ' + data.projectId + '?'}
             />
             <AddCollaboratorDialogBox
                 heading="Add Collaborator"
                 submitButtonText="Add"
                 formId="collaborator-select-form"
-                onSubmit={projects.handleAddCollaborator}
+                onSubmit={async (data) => {
+                    await projects.handleAddCollaborator(data);
+                    notificationBanner.showNotificationWithText("Collaborator Successfully Added to Project!");
+                }}
                 render={() => (
                     <SelectForm 
                         formId="collaborator-select-form"

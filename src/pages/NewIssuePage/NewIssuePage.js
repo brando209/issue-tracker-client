@@ -5,9 +5,11 @@ import Container from 'react-bootstrap/Container';
 import NewIssueForm from '../../components/form/NewIssueForm';
 import useResource from '../../hooks/useResource';
 import useAuth from '../../hooks/useAuth';
+import useNotificationBanner from '../../hooks/useNotificationBanner';
 
 function NewIssuePage(props) {
     const auth = useAuth();
+    const notificationBanner = useNotificationBanner();
     const [collaborators, setCollaborators] = useResource(
         `http://localhost:3001/api/projects/${props.match.params.projectId}/collaborators`,
         auth.user ? auth.user.token : null
@@ -46,6 +48,8 @@ function NewIssuePage(props) {
             .catch(err => callbacks.failureCb(err));
 
         props.onAddAttachment(props.match.params.projectId, issue.id, attachmentHandles);
+
+        notificationBanner.showNotificationWithText("Issue successfully added!");
 
         setRedirect(createAnother ? false : true);
     }

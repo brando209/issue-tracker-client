@@ -11,9 +11,9 @@ function IssueFilterControl(props) {
         props.onSelect("order", order);
     }
 
-    const handleSelectFilter = (filter, event) => {
+    const handleSelectFilter = (filter) => {
         const [filterKey, filterValue] = filter.split(" ");
-        const newValues = props.filters[filterKey];
+        const newValues = { ...props.filters[filterKey] };
         newValues[filterValue] = !newValues[filterValue];
         const filters = { ...props.filters, [filterKey]: newValues };
         props.onSelect("filter", filters);

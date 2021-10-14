@@ -17,6 +17,7 @@ import InlineSearch from '../../components/form/InlineSearch';
 import ToggleButton from '../../components/display/Button/ToggleButton';
 import IssueDetailNavBar from '../../components/app/Navigation/IssueDetailNavBar';
 import IssueLog from '../IssueLog/IssueLog';
+import useNotificationBanner from '../../hooks/useNotificationBanner';
 
 const initialFilterValue = {
     category: {
@@ -43,6 +44,7 @@ const initialFilterValue = {
 
 function IssueDashboard({ issues, ...props }) {
     const auth = useAuth();
+    const notificationBanner = useNotificationBanner();
     const [collaborators, ] = useResource(
         `http://localhost:3001/api/projects/${props.match.params.projectId}/collaborators`,
         auth.user ? auth.user.token : null
@@ -59,19 +61,23 @@ function IssueDashboard({ issues, ...props }) {
     }
 
     const handleDeleteIssue = async ({ data }) => {
-        props.onDelete(data.projectId, data.issueId);
+        await props.onDelete(data.projectId, data.issueId);
+        notificationBanner.showNotificationWithText("Issue Successfully Deleted!");
     }
 
     const handleAssignIssue = async ({ data, values }) => {
-        props.onAssign(data.projectId, data.issueId, values.collaboratorId);
+        await props.onAssign(data.projectId, data.issueId, values.collaboratorId);
+        notificationBanner.showNotificationWithText("Issue Successfully Assigned!")
     }
 
     const handleStartIssue = async ({ data }) => {
-        props.onStart(data.projectId, data.issueId);
+        await props.onStart(data.projectId, data.issueId);
+        notificationBanner.showNotificationWithText("Issue Successfully Advanced to In-Progress!");
     }
 
     const handleCloseIssue = async ({ data, values }) => {
-        props.onClose(data.projectId, data.issueId, values.status);
+        await props.onClose(data.projectId, data.issueId, values.status);
+        notificationBanner.showNotificationWithText("Issue Completed!");
     }
     
     return (
