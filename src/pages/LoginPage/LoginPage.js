@@ -8,23 +8,22 @@ import '../page.css';
 
 function LoginPage(props) {
     const auth = useAuth();
-
-    const login = async (credentials) => {
-        await auth.login(credentials, (user) => {
+    
+    const login = (credentials) => (
+        auth.login(credentials, (user) => {
             console.log("Signed in as " + user.userName + "!");
-        });
-    }
+        })
+    );
 
     const fromState = props.location.state ? props.location.state.from : null;
 
+    if(auth.isLoading) return <div>Loading...</div>;
+    if(auth.user) return <Redirect to={fromState ? fromState.pathname : "/"} />;
+    
     return (
-        auth.isLoading ?
-            <div>Loading...</div> :
-            auth.user ? 
-                <Redirect to={fromState ? fromState.pathname : "/"} /> :
-                <Container fluid className="page">
-                    <LoginForm onSubmit={login}/>
-                </Container>
+        <Container fluid className="page">
+            <LoginForm onSubmit={login} error={auth.error} />
+        </Container>
     )
 }
 

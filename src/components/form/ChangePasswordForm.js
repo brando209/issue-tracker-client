@@ -12,13 +12,14 @@ export default function ChangePasswordForm(props) {
                 newPassword: "",
                 confirmNewPassword: ""
             }}
-            onSubmit={(values) => {
-                console.log("Submitting", values.currentPassword, values.newPassword)
-                props.onSubmit(values.currentPassword, values.newPassword);
+            onSubmit={async (values, { setSubmitting }) => {
+                setSubmitting(true);
+                await props.onSubmit(values.currentPassword, values.newPassword);
+                setSubmitting(false);
             }}
             validationSchema={ChangePasswordSchema}
         >
-            {() => (
+            {({ isSubmitting }) => (
                 <Form className="form">
                     <Row>
                         <Col>
@@ -27,6 +28,7 @@ export default function ChangePasswordForm(props) {
                         <Col>
                             <Field name="currentPassword" type="password" autoComplete="new-password"/>
                             <span className="form-error">
+                                {props.error && <div>{props.error.message}</div>}
                                 <ErrorMessage name="currentPassword"/>
                             </span>
                         </Col>
@@ -57,7 +59,7 @@ export default function ChangePasswordForm(props) {
                     </Row>
 
                     <Row>
-                        <Button variant="primary" type="submit">Submit</Button>
+                        <Button variant="primary" type="submit" disabled={isSubmitting}>Submit</Button>
                     </Row>
 
                 </Form>

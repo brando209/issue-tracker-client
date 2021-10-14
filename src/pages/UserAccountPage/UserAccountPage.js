@@ -12,6 +12,16 @@ import ChangePasswordForm from '../../components/form/ChangePasswordForm';
 
 export default function UserAccountPage(props) {
     const auth = useAuth();
+
+    const handlePasswordChange = async (currentPassword, newPassword) => {
+        auth.changePassword(currentPassword, newPassword, async (err) => {
+            if(!err) {
+                await auth.logout(() => props.history.push('/dashboard'));
+            } else console.log(err);
+         });
+        
+    }
+
     return (
         <Switch>
             <Route path={props.match.url} exact render={() => (
@@ -30,7 +40,7 @@ export default function UserAccountPage(props) {
             <Route path={props.match.url + "/changePassword"} exact render={() => (
                 <Container fluid className="page" id="change-password">
                     <div> Change Password </div>
-                    <ChangePasswordForm onSubmit={auth.changePassword} />
+                    <ChangePasswordForm onSubmit={handlePasswordChange} error={auth.error} />
                 </Container>
             )}/>
         </Switch>

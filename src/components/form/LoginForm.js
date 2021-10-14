@@ -5,7 +5,7 @@ import { Row, Col, Button} from 'react-bootstrap';
 
 import { LoginSchema } from '../../utility/schema/validation'
 
-function LoginForm({ onSubmit }) {
+function LoginForm({ onSubmit, ...props }) {
     return (
         <Formik
             initialValues={{ userName: "", password: "" }}
@@ -23,7 +23,6 @@ function LoginForm({ onSubmit }) {
             {({ isSubmitting }) => (
                 <Form className="form">
                     <Row as="h3">Log In</Row>
-
                     <Row>
                         <Col>
                             <label htmlFor="userName">Username</label>
@@ -43,6 +42,8 @@ function LoginForm({ onSubmit }) {
                             <ErrorMessage name="password" className="form-error" />
                         </Col>
                     </Row>
+
+                    {props.error && <div className="form-error">{props.error.message}</div>}
 
                     <Row>
                         <Button variant="primary" type="submit" disabled={isSubmitting}>

@@ -16,11 +16,14 @@ export default function ProvideAuth(props) {
 function useProvideAuth() {
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+
     useEffect(() => {
         const loginWithToken = async () => {
             await authApi.tokenLogin((user) => {
                 user ? console.log("Logged in as " + user.userName) : console.log("Not logged in");
                 setUser(user);
+                setError(null);
                 setIsLoading(false);
             });
         }
@@ -40,28 +43,42 @@ function useProvideAuth() {
     const login = (credentials, cb) => {
         console.log("logging in");
         setIsLoading(true);
-        return authApi.login(credentials, (user) => {
-            setUser(user);
-            cb(user);
-            setIsLoading(false);
+        authApi.login(credentials, (user, error) => {
+            if(error) setError(error);
+            else {
+                setUser(user);
+                setError(null);
+                cb(user);
+            }
         })
+        setIsLoading(false);
     }
 
     const logout = cb => {
         return authApi.logout(() => {
             setUser(null);
-            cb();
+            setError(null);
+            cb && cb();
         });
     }
 
     const changePassword = (currentPassword, newPassword, cb) => {
         console.log('Context', currentPassword, newPassword);
-        return authApi.changePassword(currentPassword, newPassword, user.token, cb);
+        return authApi.changePassword(currentPassword, newPassword, user.token, (err) => {
+            if(err) {
+                setError(err);
+                cb(err);
+            } else {
+                setError(null);
+                cb(null);
+            }
+        });
     }
 
     return {
         user,
         isLoading,
+        error,
         signup,
         login, 
         logout,
