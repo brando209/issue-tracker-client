@@ -23,8 +23,12 @@ function NewIssuePage(props) {
         const attachments = newIssue.attachments;
         delete newIssue.attachments;
 
-        let callbacks = cb(null);
+        const createAnother = newIssue.createAnother;
+        delete newIssue.createAnother;
+        
         const issue = await props.onSubmit(props.match.params.projectId, newIssue);
+        
+        let callbacks = cb(null);
         const promises = [];
         attachments && attachments.forEach(file => {
             callbacks = cb(file);
@@ -43,7 +47,7 @@ function NewIssuePage(props) {
 
         props.onAddAttachment(props.match.params.projectId, issue.id, attachmentHandles);
 
-        setRedirect(true);
+        setRedirect(createAnother ? false : true);
     }
 
     return (

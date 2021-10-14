@@ -29,7 +29,7 @@ function NewIssueForm({ onSubmit, collaborators }) {
                 setSubmitting(false);
             }}
         >
-            {({ isSubmitting, setFieldValue }) => (
+            {({ isSubmitting, setFieldValue, submitForm, resetForm }) => (
                 <Form className="form" id="new-issue-form">
                     <Row as="h3">Add New Issue</Row>
 
@@ -124,9 +124,23 @@ function NewIssueForm({ onSubmit, collaborators }) {
                         </Col>
                     </Row>
 
+                    <Field name="createAnother" type="checkbox" style={{ display: "none" }}></Field>
+
                     <Row>
                         <Button variant="primary" type="submit" disabled={isSubmitting}>
                             Add Issue
+                        </Button>
+                        <Button 
+                            variant="outline-primary" 
+                            className="mx-1" 
+                            disabled={isSubmitting} 
+                            onClick={async () => {
+                                setFieldValue("createAnother", true);
+                                await submitForm(); 
+                                resetForm();
+                            }}
+                        >
+                            Add And Create Another
                         </Button>
                     </Row>
 
