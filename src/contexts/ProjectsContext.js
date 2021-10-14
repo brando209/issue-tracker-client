@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { createContext } from 'react';
 
 import useAuth from '../hooks/useAuth';
 import useResource from '../hooks/useResource';
